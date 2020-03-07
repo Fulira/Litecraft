@@ -157,7 +157,7 @@ public class VKSwapchainManager
         VKUtils.createFramebuffers();
         VKUtils.createUniformBuffers();
         VKUtils.createDescriptorPool();
-        VKUtils.createDescriptorSets();
+        VKUtils.createUBODescriptorSets();
         CommandBufferManager.createCommandBuffers();
     }
 	
