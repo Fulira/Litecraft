@@ -1,13 +1,14 @@
 package com.github.fulira.litecraft.world.gen.modifier;
 
 import java.util.Random;
+import java.util.function.UnaryOperator;
 
 import com.github.fulira.litecraft.types.block.Block;
 import com.github.fulira.litecraft.world.BlockAccess;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
 public class OreModifier implements WorldModifier, WorldGenConstants {
-	public OreModifier(int minY, int maxY, int boxSize, int veinSizeMin, int veinSizeMax, Block ore, OreStarter veinStarter) {
+	public OreModifier(int minY, int maxY, int boxSize, int veinSizeMin, int veinSizeMax, UnaryOperator<Block> ore, OreStarter veinStarter) {
 		this.minY = minY;
 		this.maxY = maxY;
 		this.boxSize = boxSize;
@@ -19,7 +20,7 @@ public class OreModifier implements WorldModifier, WorldGenConstants {
 
 	private final int minY, maxY, boxSize, veinSizeMin, veinSizeDelta;
 	private final OreStarter veinStarter;
-	private final Block ore;
+	private final UnaryOperator<Block> ore;
 
 	@Override
 	public void initialize(long seed) {
@@ -67,7 +68,7 @@ public class OreModifier implements WorldModifier, WorldGenConstants {
 					int z = startZ + zOffset;
 
 					if (rand.nextInt(randBound--) == 0) {
-						world.setBlock(x, y, z, this.ore);
+						world.setBlock(x, y, z, ore.apply(world.getBlock(x, y, z)));
 						blocksToPlace--;
 						randBound++;
 					}

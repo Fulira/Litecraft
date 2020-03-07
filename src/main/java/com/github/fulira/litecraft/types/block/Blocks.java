@@ -18,6 +18,7 @@ public final class Blocks {
 	public static final Block GRANITE = new Block("cubes/stone/basic/granite.png", new Properties("granite").caveCarveThreshold(0.06f));
 	public static final Block GNEISS = new Block("cubes/stone/basic/gneiss.png", new Properties("gneiss").caveCarveThreshold(0.09f));
 	public static final Block WATER = new Block("cubes/liquid/water_static.png", new Properties("water"));
+	public static final Ore IRON_ORE = new Ore("iron_ore"); // hematite
 
 	public static Block init() {
 		return AIR;
