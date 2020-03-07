@@ -28,17 +28,20 @@ public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 			for (int z = 0; z < CHUNK_SIZE; z++) {
 				double totalZ = chunk.chunkStartZ + z;
 				int height = (int) this.noise.sample(totalX, totalZ);
+
 				for (int y = 0; y < CHUNK_SIZE; y++) {
 					double rockNoise = this.stoneNoise.sample(totalX / 160.0, (chunk.chunkStartY + y) / 50.0,
 							totalZ / 160.0);
 					int totalY = chunk.chunkStartY + y;
-					Block block = Blocks.AIR;
-					if (totalY < height - 4)
+					//
+					Block block = y < SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
+					if (totalY < height - 4) {
 						block = pickStone(rockNoise);
-					else if (totalY < height - 1)
+					} else if (totalY < height - 1) {
 						block = Blocks.DIRT;
-					else if (totalY < height)
+					} else if (totalY < height) {
 						block = Blocks.GRASS;
+					}
 					chunk.setBlock(x, y, z, block);
 				}
 			}
