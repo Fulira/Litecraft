@@ -8,16 +8,16 @@ import com.github.fulira.litecraft.world.BlockAccess;
 
 public abstract class FoliageModifier implements WorldModifier {
 	public FoliageModifier(Predicate<Block> canGrowOn, FoliageStarter starter) {
-		this.canGrowOn = canGrowOn;
-		this.starter = starter;
+		//this.canGrowOn = canGrowOn;
+		//this.starter = starter;
 	}
 
-	private final Predicate<Block> canGrowOn;
-	private final FoliageStarter starter;
+	//private final Predicate<Block> canGrowOn; FIXME: use this so
+	//private final FoliageStarter starter;
 
 	@Override
 	public void modifyWorld(BlockAccess world, Random rand, int chunkStartX, int chunkStartY, int chunkStartZ) {
-		int count = this.starter.countTarget(chunkStartX, chunkStartY, chunkStartZ, rand);
+		//int count = this.starter.countTarget(chunkStartX, chunkStartY, chunkStartZ, rand);
 
 		// TODO generation
 	}

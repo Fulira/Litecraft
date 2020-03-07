@@ -2,7 +2,6 @@ package com.github.hydos.ginger.vulkan.utils;
 
 import static java.util.stream.Collectors.toSet;
 import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFWVulkan.glfwGetRequiredInstanceExtensions;
 import static org.lwjgl.system.MemoryStack.stackGet;
 import static org.lwjgl.system.MemoryStack.stackPush;
@@ -25,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.PointerBuffer;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.Pointer;
 import org.lwjgl.vulkan.VkBufferImageCopy;
@@ -59,7 +57,6 @@ import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
 import com.github.hydos.ginger.vulkan.model.VKVertex;
 import com.github.hydos.ginger.vulkan.render.Frame;
@@ -821,6 +818,7 @@ public class VKUtils
 		return Math.max(min, Math.min(max, value));
 	}
 
+	@SuppressWarnings("unlikely-arg-type") //dont think its fixable
 	public static boolean checkDeviceExtensionSupport(VkPhysicalDevice device) {
 
 		try(MemoryStack stack = stackPush()) {
