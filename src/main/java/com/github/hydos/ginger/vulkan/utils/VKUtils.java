@@ -65,7 +65,6 @@ import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
 import com.github.hydos.ginger.vulkan.model.VKVertex;
 import com.github.hydos.ginger.vulkan.render.Frame;
@@ -889,7 +888,7 @@ public class VKUtils
 		}
 	}
 
-	public static void updateUniformBuffer(int currentImage, VKRenderObject renderObject) {
+	public static void updateUBOConstants(int currentImage) {
 
 		try(MemoryStack stack = stackPush()) {
 
