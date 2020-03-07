@@ -9,39 +9,50 @@ import com.github.fulira.litecraft.world.*;
 public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 	public EarthChunkGenerator(long seed, int dimension) {
 		Random rand = new Random(seed);
-		this.noise = new OctaveSimplexNoise(rand, 3, 250.0, 50.0, 18.0);
+		this.noise = new OctaveSimplexNoise(rand, 3, 250.0, 65.0, 39.0);
 		this.stoneNoise = new OctaveSimplexNoise(rand, 1);
+		this.beachNoise = new OctaveSimplexNoise(rand, 2, 52.0, 3.0, 1.0);
 		this.dimension = dimension;
 	}
 
 	private final OctaveSimplexNoise noise;
 	private final OctaveSimplexNoise stoneNoise;
+	private final OctaveSimplexNoise beachNoise;
 	private final int dimension;
 
 	@Override
 	public Chunk generateChunk(World world, int chunkX, int chunkY, int chunkZ) {
 		Chunk chunk = new Chunk(world, chunkX, chunkY, chunkZ, this.dimension);
+		final int heightOffset = SEA_LEVEL + 3;
 
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			double totalX = x + chunk.chunkStartX;
 
 			for (int z = 0; z < CHUNK_SIZE; z++) {
 				double totalZ = chunk.chunkStartZ + z;
-				int height = (int) this.noise.sample(totalX, totalZ);
+				int height = (int) this.noise.sample(totalX, totalZ) + heightOffset;
 
 				for (int y = 0; y < CHUNK_SIZE; y++) {
 					double rockNoise = this.stoneNoise.sample(totalX / 160.0, (chunk.chunkStartY + y) / 50.0,
 							totalZ / 160.0);
 					int totalY = chunk.chunkStartY + y;
+					int beachHeight = (int) this.beachNoise.sample(totalX, totalY) + SEA_LEVEL;
 					//
 					Block block = totalY < SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
 					if (totalY < height - 4) {
 						block = pickStone(rockNoise);
-					} else if (totalY < height - 1) {
-						block = Blocks.DIRT;
 					} else if (totalY < height) {
-						block = Blocks.GRASS;
+						if (block == Blocks.WATER) { // set sand when underwater
+							block = Blocks.SAND;
+						} else if (height < beachHeight) {
+							block = Blocks.SAND; // beaches
+						} else if (totalY < height - 1) {
+							block = Blocks.DIRT;
+						} else if (totalY < height) {
+							block = Blocks.GRASS;
+						}
 					}
+
 					chunk.setBlock(x, y, z, block);
 				}
 			}

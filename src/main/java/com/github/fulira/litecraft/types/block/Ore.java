@@ -17,7 +17,8 @@ public final class Ore {
 	public Ore(String name, UnaryOperator<Properties> oreProperties, Predicate<Rock> rockPredicate) {
 		for (Rock r : Rock.values()) { // make an ore block for every rock
 			if (rockPredicate.test(r)) {
-				oreBlocks.put(r, new Block("cubes/ore/" + name + "/" + r.name + ".png",
+				String textureLoc = "cubes/ore/" + name + "/" + r.name + ".png";
+				oreBlocks.put(r, new Block(textureLoc,
 						oreProperties.apply(r.makeBase(name))));
 			}
 		}
