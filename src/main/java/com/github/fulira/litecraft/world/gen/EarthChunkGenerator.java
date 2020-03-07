@@ -34,7 +34,7 @@ public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 							totalZ / 160.0);
 					int totalY = chunk.chunkStartY + y;
 					//
-					Block block = y < SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
+					Block block = totalY < SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
 					if (totalY < height - 4) {
 						block = pickStone(rockNoise);
 					} else if (totalY < height - 1) {

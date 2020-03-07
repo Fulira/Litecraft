@@ -17,7 +17,7 @@ public final class Blocks {
 	public static final Block DIORITE = new Block("cubes/stone/basic/diorite.png", new Properties("diorite").caveCarveThreshold(0.05f));
 	public static final Block GRANITE = new Block("cubes/stone/basic/granite.png", new Properties("granite").caveCarveThreshold(0.06f));
 	public static final Block GNEISS = new Block("cubes/stone/basic/gneiss.png", new Properties("gneiss").caveCarveThreshold(0.09f));
-	public static final Block WATER = new Block("cubes/liquid/water_overlay.png", new Properties("water"));
+	public static final Block WATER = new Block("cubes/liquid/water_static.png", new Properties("water"));
 
 	public static Block init() {
 		return AIR;
