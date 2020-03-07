@@ -2,6 +2,7 @@ package com.github.hydos.ginger.vulkan.utils;
 
 import static java.util.stream.Collectors.toSet;
 import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFWVulkan.glfwGetRequiredInstanceExtensions;
 import static org.lwjgl.system.MemoryStack.stackGet;
 import static org.lwjgl.system.MemoryStack.stackPush;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.PointerBuffer;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.Pointer;
 import org.lwjgl.vulkan.VkBufferImageCopy;
@@ -58,9 +60,9 @@ import org.lwjgl.vulkan.VkSurfaceFormatKHR;
 import org.lwjgl.vulkan.VkWriteDescriptorSet;
 
 import com.github.hydos.ginger.VulkanExample;
-import com.github.hydos.ginger.VulkanExample.ConstantUniformBufferObject;
 import com.github.hydos.ginger.VulkanExample.QueueFamilyIndices;
 import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
+import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
@@ -509,7 +511,7 @@ public class VKUtils
 
 			VkDescriptorBufferInfo.Buffer bufferInfo = VkDescriptorBufferInfo.callocStack(1, stack);
 			bufferInfo.offset(0);
-			bufferInfo.range(ConstantUniformBufferObject.SIZEOF);
+			bufferInfo.range(UniformBufferObject.SIZEOF);
 
 			VkDescriptorImageInfo.Buffer imageInfo = VkDescriptorImageInfo.callocStack(1, stack);
 			imageInfo.imageLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
@@ -761,7 +763,7 @@ public class VKUtils
 			LongBuffer pBufferMemory = stack.mallocLong(1);
 
 			for(int i = 0;i < VKVariables.swapChainImages.size();i++) {
-				VKBufferUtils.createBuffer(ConstantUniformBufferObject.SIZEOF,
+				VKBufferUtils.createBuffer(UniformBufferObject.SIZEOF,
 					VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 					VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 					pBuffer,
@@ -828,11 +830,12 @@ public class VKUtils
 		buffer.rewind();
 	}
 
-	private static void putConstantUBOInMemory(ByteBuffer buffer, ConstantUniformBufferObject ubo) {
+	private static void putUBOInMemory(ByteBuffer buffer, UniformBufferObject ubo) {
 
 		final int mat4Size = 16 * Float.BYTES;
 
-		ubo.view.get(AlignmentUtils.alignas(mat4Size * 1, AlignmentUtils.alignof(ubo.view)), buffer);//the multiplication of mat4Size is its mat4 position in the uniform block
+		ubo.model.get(0, buffer);
+		ubo.view.get(AlignmentUtils.alignas(mat4Size, AlignmentUtils.alignof(ubo.view)), buffer);
 		ubo.proj.get(AlignmentUtils.alignas(mat4Size * 2, AlignmentUtils.alignof(ubo.view)), buffer);
 	}
 
@@ -889,16 +892,18 @@ public class VKUtils
 
 		try(MemoryStack stack = stackPush()) {
 
-			ConstantUniformBufferObject ubo = new ConstantUniformBufferObject();
+			UniformBufferObject ubo = new UniformBufferObject();
+			if(Window.isKeyDown(GLFW.GLFW_KEY_W))
+				ubo.model.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
 			ubo.view.lookAt(2.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 			ubo.proj.perspective((float) Math.toRadians(45),
 				(float)VKVariables.swapChainExtent.width() / (float)VKVariables.swapChainExtent.height(), 0.1f, 10.0f);
 			ubo.proj.m11(ubo.proj.m11() * -1);
 
 			PointerBuffer data = stack.mallocPointer(1);
-			vkMapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage), 0, ConstantUniformBufferObject.SIZEOF, 0, data);
+			vkMapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
 			{
-				putConstantUBOInMemory(data.getByteBuffer(0, ConstantUniformBufferObject.SIZEOF), ubo);
+				putUBOInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo);
 			}
 			vkUnmapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage));
 		}
