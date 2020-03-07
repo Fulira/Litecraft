@@ -14,17 +14,17 @@ import java.util.stream.*;
 import org.joml.*;
 import org.lwjgl.vulkan.*;
 
-import com.github.hydos.ginger.engine.common.info.RenderAPI;
-import com.github.hydos.ginger.engine.common.io.Window;
-import com.github.hydos.ginger.engine.vulkan.*;
-import com.github.hydos.ginger.engine.vulkan.elements.VKRenderObject;
-import com.github.hydos.ginger.engine.vulkan.io.VKWindow;
-import com.github.hydos.ginger.engine.vulkan.managers.VKTextureManager;
-import com.github.hydos.ginger.engine.vulkan.model.VKModelLoader;
-import com.github.hydos.ginger.engine.vulkan.model.VKModelLoader.VKMesh;
-import com.github.hydos.ginger.engine.vulkan.render.Frame;
-import com.github.hydos.ginger.engine.vulkan.swapchain.VKSwapchainManager;
-import com.github.hydos.ginger.engine.vulkan.utils.*;
+import com.github.hydos.ginger.common.info.RenderAPI;
+import com.github.hydos.ginger.common.io.Window;
+import com.github.hydos.ginger.vulkan.*;
+import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
+import com.github.hydos.ginger.vulkan.io.VKWindow;
+import com.github.hydos.ginger.vulkan.managers.VKTextureManager;
+import com.github.hydos.ginger.vulkan.model.VKModelLoader;
+import com.github.hydos.ginger.vulkan.model.VKModelLoader.VKMesh;
+import com.github.hydos.ginger.vulkan.render.Frame;
+import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
+import com.github.hydos.ginger.vulkan.utils.*;
 
 public class VulkanExample {
 

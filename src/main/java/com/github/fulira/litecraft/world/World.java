@@ -16,7 +16,7 @@ import com.github.fulira.litecraft.types.entity.PlayerEntity;
 import com.github.fulira.litecraft.world.dimension.Dimension;
 import com.github.fulira.litecraft.world.gen.*;
 import com.github.fulira.litecraft.world.gen.modifier.WorldModifier;
-import com.github.hydos.ginger.engine.opengl.render.models.GLTexturedModel;
+import com.github.hydos.ginger.opengl.render.models.GLTexturedModel;
 
 import it.unimi.dsi.fastutil.longs.*;
 

@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import org.lwjgl.opengl.*;
 
 import com.github.fulira.litecraft.types.block.*;
-import com.github.hydos.ginger.engine.opengl.utils.GLLoader;
+import com.github.hydos.ginger.opengl.utils.GLLoader;
 
 public class VoxelLoader extends GLLoader {
 	public static int createBlockAtlas() {

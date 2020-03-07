@@ -5,14 +5,14 @@ import org.lwjgl.opengl.*;
 
 import com.github.fulira.litecraft.types.block.*;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
-import com.github.hydos.ginger.engine.common.api.GingerRegister;
-import com.github.hydos.ginger.engine.common.elements.objects.GLRenderObject;
-import com.github.hydos.ginger.engine.common.io.Window;
-import com.github.hydos.ginger.engine.common.math.Maths;
-import com.github.hydos.ginger.engine.common.render.Renderer;
-import com.github.hydos.ginger.engine.opengl.render.models.GLTexturedModel;
-import com.github.hydos.ginger.engine.opengl.render.shaders.GLStaticShader;
-import com.github.hydos.ginger.engine.opengl.utils.GLLoader;
+import com.github.hydos.ginger.common.api.GingerRegister;
+import com.github.hydos.ginger.common.elements.objects.GLRenderObject;
+import com.github.hydos.ginger.common.io.Window;
+import com.github.hydos.ginger.common.math.Maths;
+import com.github.hydos.ginger.common.render.Renderer;
+import com.github.hydos.ginger.opengl.render.models.GLTexturedModel;
+import com.github.hydos.ginger.opengl.render.shaders.GLStaticShader;
+import com.github.hydos.ginger.opengl.utils.GLLoader;
 
 public class GLBlockRenderer extends Renderer implements WorldGenConstants {
 	public GLStaticShader shader;

@@ -2,8 +2,8 @@ package com.github.fulira.litecraft.types.block;
 
 import java.util.*;
 
-import com.github.hydos.ginger.engine.common.obj.ModelLoader;
-import com.github.hydos.ginger.engine.opengl.render.models.GLTexturedModel;
+import com.github.hydos.ginger.common.obj.ModelLoader;
+import com.github.hydos.ginger.opengl.render.models.GLTexturedModel;
 
 public class Block {
 	public static class Properties { // add properties to this builder!

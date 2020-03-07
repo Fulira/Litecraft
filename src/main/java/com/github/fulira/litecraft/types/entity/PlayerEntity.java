@@ -5,10 +5,10 @@ import org.joml.Vector3f;
 import com.github.fulira.litecraft.Litecraft;
 import com.github.fulira.litecraft.util.RelativeDirection;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
-import com.github.hydos.ginger.engine.common.Constants;
-import com.github.hydos.ginger.engine.common.api.GingerRegister;
-import com.github.hydos.ginger.engine.common.io.Window;
-import com.github.hydos.ginger.engine.opengl.render.models.GLTexturedModel;
+import com.github.hydos.ginger.common.Constants;
+import com.github.hydos.ginger.common.api.GingerRegister;
+import com.github.hydos.ginger.common.io.Window;
+import com.github.hydos.ginger.opengl.render.models.GLTexturedModel;
 
 public class PlayerEntity extends Entity implements WorldGenConstants {
 	private boolean isInAir = false;

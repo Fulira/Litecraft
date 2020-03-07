@@ -3,7 +3,7 @@ package com.github.fulira.litecraft.types.block;
 import org.joml.Vector3f;
 
 import com.github.fulira.litecraft.world.Chunk;
-import com.github.hydos.ginger.engine.common.elements.objects.GLRenderObject;
+import com.github.hydos.ginger.common.elements.objects.GLRenderObject;
 
 public class BlockInstance extends GLRenderObject {
 	public BlockInstance(Block block, Vector3f position) {

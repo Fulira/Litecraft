@@ -1,9 +1,9 @@
 package com.github.hydos.ginger;
 
-import com.github.hydos.ginger.engine.vulkan.VKVariables;
-import com.github.hydos.ginger.engine.vulkan.elements.VKRenderObject;
-import com.github.hydos.ginger.engine.vulkan.render.*;
-import com.github.hydos.ginger.engine.vulkan.render.renderers.EntityRenderer;
+import com.github.hydos.ginger.vulkan.VKVariables;
+import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
+import com.github.hydos.ginger.vulkan.render.*;
+import com.github.hydos.ginger.vulkan.render.renderers.EntityRenderer;
 
 public class GingerVK {
 	private static GingerVK INSTANCE;

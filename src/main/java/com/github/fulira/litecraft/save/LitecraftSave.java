@@ -9,7 +9,7 @@ import com.github.fulira.litecraft.Litecraft;
 import com.github.fulira.litecraft.types.entity.PlayerEntity;
 import com.github.fulira.litecraft.world.*;
 import com.github.fulira.litecraft.world.dimension.Dimension;
-import com.github.hydos.ginger.engine.common.cameras.Camera;
+import com.github.hydos.ginger.common.cameras.Camera;
 
 import tk.valoeghese.sod.*;
 

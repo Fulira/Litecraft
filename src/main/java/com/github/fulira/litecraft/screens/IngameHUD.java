@@ -4,10 +4,10 @@ import org.joml.*;
 
 import com.github.fulira.litecraft.Litecraft;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
-import com.github.hydos.ginger.engine.common.api.*;
-import com.github.hydos.ginger.engine.common.font.GUIText;
-import com.github.hydos.ginger.engine.common.screen.Screen;
-import com.github.hydos.ginger.engine.opengl.api.GingerGL;
+import com.github.hydos.ginger.common.api.*;
+import com.github.hydos.ginger.common.font.GUIText;
+import com.github.hydos.ginger.common.screen.Screen;
+import com.github.hydos.ginger.opengl.api.GingerGL;
 
 public class IngameHUD extends Screen implements WorldGenConstants {
 	private GUIText debugText;
