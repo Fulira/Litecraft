@@ -3,7 +3,7 @@ package com.github.fulira.litecraft.world.gen.modifier;
 import java.util.Random;
 import java.util.function.UnaryOperator;
 
-import com.github.fulira.litecraft.types.block.Block;
+import com.github.fulira.litecraft.types.block.*;
 import com.github.fulira.litecraft.world.BlockAccess;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
@@ -79,6 +79,10 @@ public class OreModifier implements WorldModifier, WorldGenConstants {
 				}
 			}
 		}
+	}
+
+	public static UnaryOperator<Block> rockToOre(Ore ore) {
+		return rock -> rock instanceof RockBlock ? ore.getOreBlock(((RockBlock) rock).rock) : rock;
 	}
 
 	@FunctionalInterface
