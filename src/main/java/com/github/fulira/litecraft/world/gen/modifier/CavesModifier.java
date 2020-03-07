@@ -79,14 +79,15 @@ public class CavesModifier implements WorldModifier, WorldGenConstants {
 								if (-threshold < lerpNoise && lerpNoise < threshold) {
 									boolean canGenerate = false;
 
-									// check for air above. if there is air above, check threshold of nearby blocks to try prevent bad holes
+									// check for air or water above. if there is air or water above, check threshold of nearby blocks to try prevent bad holes
 									// inb4 this makes caves generate differently based on how the chunk is loaded
 									// maybe I should change GenerationWorld slightly
-									if (world.getBlock(totalX, totalY + 1, totalZ) == Blocks.AIR) {
+									Block up = world.getBlock(totalX, totalY + 1, totalZ);
+									if (up == Blocks.AIR || up == Blocks.WATER) {
 										for (CardinalDirection direction : CardinalDirection.values()) {
 											Block block2 = world.getBlock(totalX + direction.x, totalY, totalZ + direction.z);
 
-											if (block2 == Blocks.AIR) {
+											if (block2 == Blocks.AIR || block2 == Blocks.WATER) {
 												canGenerate = true;
 											} else {
 												float threshold2 = block2.getCaveCarveThreshold();
