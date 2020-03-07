@@ -727,15 +727,6 @@ public class VKUtils
 		buffer.rewind();
 	}
 
-	private static void putUBOInMemory(ByteBuffer buffer, UniformBufferObject ubo) {
-
-		final int mat4Size = 16 * Float.BYTES;
-
-		ubo.model.get(0, buffer);
-		ubo.view.get(AlignmentUtils.alignas(mat4Size, AlignmentUtils.alignof(ubo.view)), buffer);
-		ubo.proj.get(AlignmentUtils.alignas(mat4Size * 2, AlignmentUtils.alignof(ubo.view)), buffer);
-	}
-
 	public static int findMemoryType(int typeFilter, int properties) {
 
 		VkPhysicalDeviceMemoryProperties memProperties = VkPhysicalDeviceMemoryProperties.mallocStack();
@@ -782,27 +773,6 @@ public class VKUtils
 				VKVariables.inFlightFrames.add(new Frame(pImageAvailableSemaphore.get(0), pRenderFinishedSemaphore.get(0), pFence.get(0)));
 			}
 
-		}
-	}
-
-	public static void updateUniformBuffer(int currentImage, VKRenderObject renderObject) {
-
-		try(MemoryStack stack = stackPush()) {
-
-			UniformBufferObject ubo = new UniformBufferObject();
-			if(Window.isKeyDown(GLFW.GLFW_KEY_W))
-				ubo.model.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
-			ubo.view.lookAt(2.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-			ubo.proj.perspective((float) Math.toRadians(45),
-				(float)VKVariables.swapChainExtent.width() / (float)VKVariables.swapChainExtent.height(), 0.1f, 10.0f);
-			ubo.proj.m11(ubo.proj.m11() * -1);
-
-			PointerBuffer data = stack.mallocPointer(1);
-			vkMapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
-			{
-				putUBOInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo);
-			}
-			vkUnmapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage));
 		}
 	}
 

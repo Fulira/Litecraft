@@ -11,6 +11,7 @@ import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.VulkanExample;
 import com.github.hydos.ginger.vulkan.VKVariables;
+import com.github.hydos.ginger.vulkan.managers.UBOManager;
 import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
 import com.github.hydos.ginger.vulkan.utils.VKUtils;
 
@@ -76,7 +77,7 @@ public class Frame {
 
 			final int imageIndex = pImageIndex.get(0);
 			VKVariables.currentImageIndex = imageIndex;
-			VKUtils.updateUniformBuffer(VKVariables.currentImageIndex, null);//TODO: move this to entitiy renderer and update before every entity is drawn
+			UBOManager.updateUniformBuffer(VKVariables.currentImageIndex, null);//TODO: move this to entitiy renderer and update before every entity is drawn
 
 			if(VKVariables.imagesInFlight.containsKey(imageIndex)) {
 				vkWaitForFences(VKVariables.device, VKVariables.imagesInFlight.get(imageIndex).fence(), true, VulkanExample.UINT64_MAX);

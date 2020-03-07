@@ -19,6 +19,7 @@ import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.*;
 import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.io.VKWindow;
+import com.github.hydos.ginger.vulkan.managers.UBOManager;
 import com.github.hydos.ginger.vulkan.managers.VKTextureManager;
 import com.github.hydos.ginger.vulkan.model.VKModelLoader;
 import com.github.hydos.ginger.vulkan.model.VKModelLoader.VKMesh;
@@ -110,7 +111,7 @@ public class VulkanExample {
 		VKTextureManager.createTextureImageView();
 		VKTextureManager.createTextureSampler();
 		loadModel();
-		VKUtils.createUBODescriptorSetLayout();
+		UBOManager.createUBODescriptorSetLayout();
 		VKSwapchainManager.createSwapChainObjects();
 		VKUtils.createSyncObjects();
 	}

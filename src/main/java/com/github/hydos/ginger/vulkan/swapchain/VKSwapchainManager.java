@@ -1,21 +1,45 @@
 package com.github.hydos.ginger.vulkan.swapchain;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
+import static org.lwjgl.glfw.GLFW.glfwWaitEvents;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.vulkan.KHRSurface.VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-import static org.lwjgl.vulkan.KHRSwapchain.*;
-import static org.lwjgl.vulkan.VK10.*;
+import static org.lwjgl.vulkan.KHRSwapchain.VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+import static org.lwjgl.vulkan.KHRSwapchain.vkCreateSwapchainKHR;
+import static org.lwjgl.vulkan.KHRSwapchain.vkDestroySwapchainKHR;
+import static org.lwjgl.vulkan.KHRSwapchain.vkGetSwapchainImagesKHR;
+import static org.lwjgl.vulkan.VK10.VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+import static org.lwjgl.vulkan.VK10.VK_NULL_HANDLE;
+import static org.lwjgl.vulkan.VK10.VK_SHARING_MODE_CONCURRENT;
+import static org.lwjgl.vulkan.VK10.VK_SHARING_MODE_EXCLUSIVE;
+import static org.lwjgl.vulkan.VK10.VK_SUCCESS;
+import static org.lwjgl.vulkan.VK10.vkDestroyBuffer;
+import static org.lwjgl.vulkan.VK10.vkDestroyDescriptorPool;
+import static org.lwjgl.vulkan.VK10.vkDestroyFramebuffer;
+import static org.lwjgl.vulkan.VK10.vkDestroyImage;
+import static org.lwjgl.vulkan.VK10.vkDestroyImageView;
+import static org.lwjgl.vulkan.VK10.vkDestroyPipeline;
+import static org.lwjgl.vulkan.VK10.vkDestroyPipelineLayout;
+import static org.lwjgl.vulkan.VK10.vkDestroyRenderPass;
+import static org.lwjgl.vulkan.VK10.vkDeviceWaitIdle;
+import static org.lwjgl.vulkan.VK10.vkFreeCommandBuffers;
+import static org.lwjgl.vulkan.VK10.vkFreeMemory;
 
-import java.nio.*;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
 import java.util.ArrayList;
 
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.vulkan.*;
+import org.lwjgl.vulkan.VkExtent2D;
+import org.lwjgl.vulkan.VkSurfaceFormatKHR;
+import org.lwjgl.vulkan.VkSwapchainCreateInfoKHR;
 
-import com.github.hydos.ginger.VulkanExample.*;
+import com.github.hydos.ginger.VulkanExample.QueueFamilyIndices;
+import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
+import com.github.hydos.ginger.vulkan.managers.UBOManager;
 import com.github.hydos.ginger.vulkan.render.VKRenderManager;
 import com.github.hydos.ginger.vulkan.render.pipelines.VKPipelineManager;
 import com.github.hydos.ginger.vulkan.utils.VKUtils;
@@ -157,7 +181,7 @@ public class VKSwapchainManager
         VKUtils.createFramebuffers();
         VKUtils.createUniformBuffers();
         VKUtils.createDescriptorPool();
-        VKUtils.createUBODescriptorSets();
+        UBOManager.createUBODescriptorSets();
         CommandBufferManager.createCommandBuffers();
     }
 	
