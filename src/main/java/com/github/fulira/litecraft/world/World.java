@@ -80,6 +80,7 @@ public class World implements BlockAccess, WorldGenConstants {
 
 	public PlayerEntity spawnPlayer(float x, float y, float z) {
 		this.playerEntity = (PlayerEntity) Litecraft.getInstance().player;
+		this.playerEntity.setPosition(new Vector3f(x, y, z));
 		this.playerEntity.setVisible(false);
 
 		// Generate world around player
