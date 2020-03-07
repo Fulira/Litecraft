@@ -76,7 +76,7 @@ public class Frame {
 
 			final int imageIndex = pImageIndex.get(0);
 			VKVariables.currentImageIndex = imageIndex;
-			VKUtils.updateUBOConstants(VKVariables.currentImageIndex);//TODO: move this to entitiy renderer and update before every entity is drawn
+			VKUtils.updateUniformBuffer(VKVariables.currentImageIndex, null);//TODO: move this to entitiy renderer and update before every entity is drawn
 
 			if(VKVariables.imagesInFlight.containsKey(imageIndex)) {
 				vkWaitForFences(VKVariables.device, VKVariables.imagesInFlight.get(imageIndex).fence(), true, VulkanExample.UINT64_MAX);
