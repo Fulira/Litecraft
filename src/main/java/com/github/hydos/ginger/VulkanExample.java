@@ -57,16 +57,14 @@ public class VulkanExample {
 
 	}
 
-	public static class UniformBufferObject {
+	public static class ConstantUniformBufferObject {
 
-		public static final int SIZEOF = 3 * 16 * Float.BYTES;
+		public static final int SIZEOF = 2 * 16 * Float.BYTES;
 
-		public Matrix4f model;
 		public Matrix4f view;
 		public Matrix4f proj;
 
-		public UniformBufferObject() {
-			model = new Matrix4f();
+		public ConstantUniformBufferObject() {
 			view = new Matrix4f();
 			proj = new Matrix4f();
 		}
