@@ -3,7 +3,7 @@ package com.github.fulira.litecraft.render;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.*;
 
-import com.github.fulira.litecraft.types.block.BlockInstance;
+import com.github.fulira.litecraft.types.block.*;
 import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 import com.github.hydos.ginger.engine.common.api.GingerRegister;
 import com.github.hydos.ginger.engine.common.elements.objects.GLRenderObject;
@@ -80,7 +80,7 @@ public class GLBlockRenderer extends Renderer implements WorldGenConstants {
 						0);
 			}
 		}
-//		disableWireframe();
-//		shader.stop();
+		//		disableWireframe();
+		//		shader.stop();
 	}
 }

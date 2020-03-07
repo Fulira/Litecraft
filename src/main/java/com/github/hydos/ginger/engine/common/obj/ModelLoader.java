@@ -13,7 +13,7 @@ public class ModelLoader
 		GLTexturedModel tm = new GLTexturedModel(GLLoader.loadToVAO(data.getVertices(), data.getIndices(), data.getNormals(), data.getTextureCoords()), new ModelTexture(cubeTexture));
 		return tm;
 	}
-	
+
 	public static Mesh getCubeMesh() {
 		return StaticCube.getCube();
 	}
@@ -23,7 +23,7 @@ public class ModelLoader
 		Mesh data = OBJFileLoader.loadModel(objPath);
 		return new GLTexturedModel(GLLoader.loadToVAO(data.getVertices(), data.getIndices(), data.getNormals(), data.getTextureCoords()), new ModelTexture(texturePath));
 	}
-	
+
 	public static Mesh loadMesh(String meshPath) {
 		Mesh data = OBJFileLoader.loadModel(meshPath);
 		return data;

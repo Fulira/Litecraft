@@ -8,7 +8,10 @@ public final class Blocks {
 	public static final ArrayList<Block> BLOCKS = new ArrayList<Block>();
 
 	public static final Block AIR = new Block(new Properties("air").visible(false).fullCube(false));
-	public static final Block GRASS = new Block("cubes/soil/grass/grass_top.png", new Properties("grass").caveCarveThreshold(0.04f));
+	// "cubes/soil/grass/grass_top2.png" top
+	// "cubes/soil/grass/grass_side.png" side
+	// "cubes/soil/dirt.png" bottom
+	public static final Block GRASS = new Block("cubes/soil/grass/grass_side.png", new Properties("grass").caveCarveThreshold(0.04f));
 	public static final Block DIRT = new Block("cubes/soil/dirt.png", new Properties("dirt").caveCarveThreshold(0.05f));
 	public static final Block ANDESITE = new Block("cubes/stone/basic/andesite.png", new Properties("andesite").caveCarveThreshold(0.08f));
 	public static final Block DIORITE = new Block("cubes/stone/basic/diorite.png", new Properties("diorite").caveCarveThreshold(0.05f));

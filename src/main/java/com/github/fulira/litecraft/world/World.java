@@ -7,6 +7,7 @@ import java.util.function.LongConsumer;
 
 import org.joml.Vector3f;
 
+import com.gildedgames.orbis.lib.util.random.XRSRRandom;
 import com.github.fulira.litecraft.Litecraft;
 import com.github.fulira.litecraft.render.GLBlockRenderer;
 import com.github.fulira.litecraft.save.LitecraftSave;
@@ -142,7 +143,7 @@ public class World implements BlockAccess, WorldGenConstants {
 	}
 
 	private void populateChunk(int chunkX, int chunkY, int chunkZ, int chunkStartX, int chunkStartY, int chunkStartZ) {
-		Random rand = new Random(this.seed + 5828671L * chunkX + -47245139L * chunkY + 8972357 * (long) chunkZ);
+		Random rand = new XRSRRandom(this.seed + 5828671L * chunkX + -47245139L * chunkY + 8972357 * (long) chunkZ);
 		for (WorldModifier modifier : this.worldModifiers) {
 			modifier.modifyWorld(this.genBlockAccess, rand, chunkStartX, chunkStartY, chunkStartZ);
 		}
