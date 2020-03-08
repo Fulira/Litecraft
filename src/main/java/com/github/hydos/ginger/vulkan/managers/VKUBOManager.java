@@ -8,12 +8,10 @@ import java.nio.*;
 import java.util.*;
 
 import org.lwjgl.PointerBuffer;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
-import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.ubo.UBO;
@@ -162,8 +160,7 @@ public class VKUBOManager {
 		try(MemoryStack stack = stackPush()) {
 
 			UniformBufferObject ubo = new UniformBufferObject();
-			if(Window.isKeyDown(GLFW.GLFW_KEY_W))
-				ubo.model.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
+			ubo.model.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
 			ubo.view.lookAt(2.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 			ubo.proj.perspective((float) Math.toRadians(45),
 				(float)VKVariables.swapChainExtent.width() / (float)VKVariables.swapChainExtent.height(), 0.1f, 10.0f);

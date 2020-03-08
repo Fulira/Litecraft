@@ -82,7 +82,7 @@ public class VulkanExample {
 		VKUtils.cleanup();
 	}
 
-	private void loadModel() {
+	private void loadTestModel() {
 
 		File modelFile = new File(ClassLoader.getSystemClassLoader().getResource("models/chalet.obj").getFile());
 
@@ -111,8 +111,8 @@ public class VulkanExample {
 		VKTextureManager.createTextureImage();
 		VKTextureManager.createTextureImageView();
 		VKTextureManager.createTextureSampler();
-		loadModel();
-		
+		loadTestModel();
+
 //		//create the projection and view matrix ubo
 		UBO viewProjUbo = new UBO();
 		VKUBOManager.addUBO(viewProjUbo);
@@ -123,7 +123,6 @@ public class VulkanExample {
 	}
 
 	private void mainLoop() {
-
 		while (!Window.closed()) {
 			if (Window.shouldRender()) {
 				Frame.drawFrame();
