@@ -118,8 +118,8 @@ public class VKUBOManager {
 			VkDescriptorSetLayoutBinding.Buffer bindings = VkDescriptorSetLayoutBinding.callocStack(ubos.size() + 1, stack); //create binding buffer on stack
 			
 			for(UBO ubo : ubos) {
-				VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(0);
-				uboLayoutBinding.binding(0); //set the binding number
+				VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(ubo.bindIndex);
+				uboLayoutBinding.binding(ubo.bindIndex); //set the binding number
 				uboLayoutBinding.descriptorCount(1);
 				uboLayoutBinding.descriptorType(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
 				uboLayoutBinding.pImmutableSamplers(null);

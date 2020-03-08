@@ -115,6 +115,8 @@ public class VulkanExample {
 
 //		//create the projection and view matrix ubo
 		UBO viewProjUbo = new UBO();
+		viewProjUbo.bindIndex = 0;
+		
 		VKUBOManager.addUBO(viewProjUbo);
 		VKUBOManager.createUBODescriptorSetLayout();
 		
