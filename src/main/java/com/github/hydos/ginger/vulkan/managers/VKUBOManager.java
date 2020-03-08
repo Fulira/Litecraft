@@ -115,7 +115,7 @@ public class VKUBOManager {
 		}
 		try(MemoryStack stack = stackPush()) {
 
-			VkDescriptorSetLayoutBinding.Buffer bindings = VkDescriptorSetLayoutBinding.callocStack(2, stack); //create binding buffer on stack
+			VkDescriptorSetLayoutBinding.Buffer bindings = VkDescriptorSetLayoutBinding.callocStack(ubos.size() + 1, stack); //create binding buffer on stack
 			
 			for(UBO ubo : ubos) {
 				VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(0);
@@ -155,7 +155,7 @@ public class VKUBOManager {
 		ubo.proj.get(AlignmentUtils.alignas(mat4Size * 2, AlignmentUtils.alignof(ubo.view)), buffer);
 	}
 	
-	public static void updateUniformBuffer(int currentImage, VKRenderObject renderObject) {
+	public static void updateProjAndViewUniformBuffer(int currentImage, VKRenderObject renderObject) {
 
 		try(MemoryStack stack = stackPush()) {
 
