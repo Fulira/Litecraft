@@ -12,8 +12,9 @@ import org.lwjgl.vulkan.VkCommandBuffer;
 import com.github.hydos.ginger.common.render.Renderer;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
-import com.github.hydos.ginger.vulkan.model.VKVertex;
+import com.github.hydos.ginger.vulkan.managers.VKUBOManager;
 import com.github.hydos.ginger.vulkan.model.VKModelLoader.VKMesh;
+import com.github.hydos.ginger.vulkan.model.VKVertex;
 import com.github.hydos.ginger.vulkan.render.VKBufferMesh;
 import com.github.hydos.ginger.vulkan.utils.VKUtils;
 
@@ -72,7 +73,7 @@ public class EntityRenderer extends Renderer
 	        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
 	        	VKVariables.pipelineLayout,
 	                0, stack.longs(
-	                	VKVariables.descriptorSets.get(index)
+	                	VKUBOManager.descriptorSets.get(index)
 	                	), 
 	                null);
 

@@ -38,8 +38,8 @@ import com.github.hydos.ginger.VulkanExample.QueueFamilyIndices;
 import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
-import com.github.hydos.ginger.vulkan.managers.UBOManager;
+import com.github.hydos.ginger.vulkan.managers.VKCommandBufferManager;
+import com.github.hydos.ginger.vulkan.managers.VKUBOManager;
 import com.github.hydos.ginger.vulkan.render.VKRenderManager;
 import com.github.hydos.ginger.vulkan.render.pipelines.VKPipelineManager;
 import com.github.hydos.ginger.vulkan.utils.VKUtils;
@@ -57,10 +57,10 @@ public class VKSwapchainManager
         vkDestroyImage(VKVariables.device, VKVariables.depthImage, null);
         vkFreeMemory(VKVariables.device, VKVariables.depthImageMemory, null);
 
-        VKVariables.uniformBuffers.forEach(ubo -> vkDestroyBuffer(VKVariables.device, ubo, null));
-        VKVariables.uniformBuffersMemory.forEach(uboMemory -> vkFreeMemory(VKVariables.device, uboMemory, null));
+        VKUBOManager.uniformBuffers.forEach(ubo -> vkDestroyBuffer(VKVariables.device, ubo, null));
+        VKUBOManager.uniformBuffersMemory.forEach(uboMemory -> vkFreeMemory(VKVariables.device, uboMemory, null));
 
-        vkDestroyDescriptorPool(VKVariables.device, VKVariables.descriptorPool, null);
+        vkDestroyDescriptorPool(VKVariables.device, VKUBOManager.descriptorPool, null);
 
         VKVariables.swapChainFramebuffers.forEach(framebuffer -> vkDestroyFramebuffer(VKVariables.device, framebuffer, null));
 
@@ -181,8 +181,8 @@ public class VKSwapchainManager
         VKUtils.createFramebuffers();
         VKUtils.createUniformBuffers();
         VKUtils.createDescriptorPool();
-        UBOManager.createUBODescriptorSets();
-        CommandBufferManager.createCommandBuffers();
+        VKUBOManager.createUBODescriptorSets();
+        VKCommandBufferManager.createCommandBuffers();
     }
 	
 }

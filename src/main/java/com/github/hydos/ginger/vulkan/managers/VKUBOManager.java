@@ -2,55 +2,55 @@ package com.github.hydos.ginger.vulkan.managers;
 
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.system.MemoryStack.stackPush;
-import static org.lwjgl.vulkan.VK10.VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-import static org.lwjgl.vulkan.VK10.VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-import static org.lwjgl.vulkan.VK10.VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-import static org.lwjgl.vulkan.VK10.VK_SHADER_STAGE_FRAGMENT_BIT;
-import static org.lwjgl.vulkan.VK10.VK_SHADER_STAGE_VERTEX_BIT;
-import static org.lwjgl.vulkan.VK10.VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-import static org.lwjgl.vulkan.VK10.VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-import static org.lwjgl.vulkan.VK10.VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-import static org.lwjgl.vulkan.VK10.VK_SUCCESS;
-import static org.lwjgl.vulkan.VK10.vkAllocateDescriptorSets;
-import static org.lwjgl.vulkan.VK10.vkCreateDescriptorSetLayout;
-import static org.lwjgl.vulkan.VK10.vkMapMemory;
-import static org.lwjgl.vulkan.VK10.vkUnmapMemory;
-import static org.lwjgl.vulkan.VK10.vkUpdateDescriptorSets;
+import static org.lwjgl.vulkan.VK10.*;
 
-import java.nio.ByteBuffer;
-import java.nio.LongBuffer;
-import java.util.ArrayList;
+import java.nio.*;
+import java.util.*;
 
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.vulkan.VkDescriptorBufferInfo;
-import org.lwjgl.vulkan.VkDescriptorImageInfo;
-import org.lwjgl.vulkan.VkDescriptorSetAllocateInfo;
-import org.lwjgl.vulkan.VkDescriptorSetLayoutBinding;
-import org.lwjgl.vulkan.VkDescriptorSetLayoutCreateInfo;
-import org.lwjgl.vulkan.VkWriteDescriptorSet;
+import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
+import com.github.hydos.ginger.vulkan.ubo.UBO;
 import com.github.hydos.ginger.vulkan.utils.AlignmentUtils;
 
-public class UBOManager {
-
+public class VKUBOManager {
+	
+	public static List<UBO> ubos;
+    
+    public static long descriptorPool;
+    public static long descriptorSetLayout;
+    public static List<Long> descriptorSets;
+	
+    public static List<Long> uniformBuffers; //FIXME: may be the answer to all problems
+    public static List<Long> uniformBuffersMemory;
+    
+    public static void addUBO(UBO ubo) {
+		if(ubos == null) {
+			ubos = new ArrayList<UBO>();
+		}
+		ubos.add(ubo);
+    }
+    
 	public static void createUBODescriptorSets() {
-
+		if(ubos == null) {//it shouldnt be but just in case
+			ubos = new ArrayList<UBO>();
+		}
 		try (MemoryStack stack = stackPush()) {
 
 			LongBuffer layouts = stack.mallocLong(VKVariables.swapChainImages.size());
 			for (int i = 0; i < layouts.capacity(); i++) {
-				layouts.put(i, VKVariables.descriptorSetLayout);
+				layouts.put(i, descriptorSetLayout);
 			}
 
 			VkDescriptorSetAllocateInfo allocInfo = VkDescriptorSetAllocateInfo.callocStack(stack);
 			allocInfo.sType(VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO);
-			allocInfo.descriptorPool(VKVariables.descriptorPool);
+			allocInfo.descriptorPool(descriptorPool);
 			allocInfo.pSetLayouts(layouts);
 
 			LongBuffer pDescriptorSets = stack.mallocLong(VKVariables.swapChainImages.size());
@@ -59,7 +59,7 @@ public class UBOManager {
 				throw new RuntimeException("Failed to allocate descriptor sets");
 			}
 
-			VKVariables.descriptorSets = new ArrayList<>(pDescriptorSets.capacity());
+			descriptorSets = new ArrayList<>(pDescriptorSets.capacity());
 
 			VkDescriptorBufferInfo.Buffer bufferInfo = VkDescriptorBufferInfo.callocStack(1, stack);
 			bufferInfo.offset(0);
@@ -70,16 +70,21 @@ public class UBOManager {
 			imageInfo.imageView(VKVariables.textureImageView);
 			imageInfo.sampler(VKVariables.textureSampler);
 
-			VkWriteDescriptorSet.Buffer descriptorWrites = VkWriteDescriptorSet.callocStack(2, stack);
+			
+			VkWriteDescriptorSet.Buffer descriptorWrites = VkWriteDescriptorSet.callocStack(2, stack); //+1 is for fragment shader texture
+			
+			for(UBO ubo : ubos) {
+				VkWriteDescriptorSet uboDescriptorWrite = descriptorWrites.get(ubo.bindIndex);
+				uboDescriptorWrite.sType(VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET);
+				uboDescriptorWrite.dstBinding(0);
+				uboDescriptorWrite.dstArrayElement(0);
+				uboDescriptorWrite.descriptorType(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+				uboDescriptorWrite.descriptorCount(1);
+				uboDescriptorWrite.pBufferInfo(bufferInfo);
+				ubo.writeDescriptorSet = uboDescriptorWrite;
+			}
 
-			VkWriteDescriptorSet uboDescriptorWrite = descriptorWrites.get(0);
-			uboDescriptorWrite.sType(VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET);
-			uboDescriptorWrite.dstBinding(0);
-			uboDescriptorWrite.dstArrayElement(0);
-			uboDescriptorWrite.descriptorType(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
-			uboDescriptorWrite.descriptorCount(1);
-			uboDescriptorWrite.pBufferInfo(bufferInfo);
-
+			//sepereate because its a texture thing TODO: make this changeable may be good for things
 			VkWriteDescriptorSet samplerDescriptorWrite = descriptorWrites.get(1);
 			samplerDescriptorWrite.sType(VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET);
 			samplerDescriptorWrite.dstBinding(1);
@@ -92,30 +97,36 @@ public class UBOManager {
 
 				long descriptorSet = pDescriptorSets.get(i);
 
-				bufferInfo.buffer(VKVariables.uniformBuffers.get(i));
+				bufferInfo.buffer(uniformBuffers.get(i));
 
-				uboDescriptorWrite.dstSet(descriptorSet);
+				for(UBO ubo : ubos) {
+					ubo.writeDescriptorSet.dstSet(descriptorSet);
+				}
 				samplerDescriptorWrite.dstSet(descriptorSet);
 
 				vkUpdateDescriptorSets(VKVariables.device, descriptorWrites, null);
 
-				VKVariables.descriptorSets.add(descriptorSet);
+				descriptorSets.add(descriptorSet);
 			}
 		}
 	}
 	
 	public static void createUBODescriptorSetLayout() {
-
+		if(ubos == null) {//it shouldnt be but just in case
+			ubos = new ArrayList<UBO>();
+		}
 		try(MemoryStack stack = stackPush()) {
 
 			VkDescriptorSetLayoutBinding.Buffer bindings = VkDescriptorSetLayoutBinding.callocStack(2, stack); //create binding buffer on stack
-
-			VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(0);
-			uboLayoutBinding.binding(0); //set the binding number
-			uboLayoutBinding.descriptorCount(1);
-			uboLayoutBinding.descriptorType(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
-			uboLayoutBinding.pImmutableSamplers(null);
-			uboLayoutBinding.stageFlags(VK_SHADER_STAGE_VERTEX_BIT);
+			
+			for(UBO ubo : ubos) {
+				VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(0);
+				uboLayoutBinding.binding(0); //set the binding number
+				uboLayoutBinding.descriptorCount(1);
+				uboLayoutBinding.descriptorType(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+				uboLayoutBinding.pImmutableSamplers(null);
+				uboLayoutBinding.stageFlags(ubo.shaderType);
+			}
 
 			VkDescriptorSetLayoutBinding samplerLayoutBinding = bindings.get(1);
 			samplerLayoutBinding.binding(1);
@@ -133,7 +144,7 @@ public class UBOManager {
 			if(vkCreateDescriptorSetLayout(VKVariables.device, layoutInfo, null, pDescriptorSetLayout) != VK_SUCCESS) {
 				throw new RuntimeException("Failed to create descriptor set layout");
 			}
-			VKVariables.descriptorSetLayout = pDescriptorSetLayout.get(0);
+			descriptorSetLayout = pDescriptorSetLayout.get(0);
 		}
 	}
 	
@@ -159,11 +170,11 @@ public class UBOManager {
 			ubo.proj.m11(ubo.proj.m11() * -1);
 
 			PointerBuffer data = stack.mallocPointer(1);
-			vkMapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
+			vkMapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
 			{
 				putUBOInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo);
 			}
-			vkUnmapMemory(VKVariables.device, VKVariables.uniformBuffersMemory.get(currentImage));
+			vkUnmapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage));
 		}
 	}
 

@@ -44,10 +44,6 @@ public class VKVariables
 
     public static long renderPass;
     
-    public static long descriptorPool;
-    public static long descriptorSetLayout;
-    public static List<Long> descriptorSets;
-    
     public static long pipelineLayout;
     
     public static long graphicsPipeline;
@@ -68,11 +64,8 @@ public class VKVariables
     public static long textureImageView;
     public static long textureSampler;
 
-    public static VKVertex[] vertices; //TODO: remove and properly add model loading
+    public static VKVertex[] vertices;
     public static int[] indices;
-
-    public static List<Long> uniformBuffers;//FIXME: may be the answer to all problems
-    public static List<Long> uniformBuffersMemory;
 
     public static List<VkCommandBuffer> commandBuffers;
 

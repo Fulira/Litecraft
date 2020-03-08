@@ -3,64 +3,24 @@ package com.github.hydos.ginger.vulkan.utils;
 import static java.util.stream.Collectors.toSet;
 import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
 import static org.lwjgl.glfw.GLFWVulkan.glfwGetRequiredInstanceExtensions;
-import static org.lwjgl.system.MemoryStack.stackGet;
-import static org.lwjgl.system.MemoryStack.stackPush;
-import static org.lwjgl.vulkan.KHRSurface.VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-import static org.lwjgl.vulkan.KHRSurface.VK_PRESENT_MODE_FIFO_KHR;
-import static org.lwjgl.vulkan.KHRSurface.VK_PRESENT_MODE_MAILBOX_KHR;
-import static org.lwjgl.vulkan.KHRSurface.vkDestroySurfaceKHR;
-import static org.lwjgl.vulkan.KHRSurface.vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
-import static org.lwjgl.vulkan.KHRSurface.vkGetPhysicalDeviceSurfaceFormatsKHR;
-import static org.lwjgl.vulkan.KHRSurface.vkGetPhysicalDeviceSurfacePresentModesKHR;
-import static org.lwjgl.vulkan.KHRSurface.vkGetPhysicalDeviceSurfaceSupportKHR;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.vulkan.KHRSurface.*;
 import static org.lwjgl.vulkan.VK10.*;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.nio.LongBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.nio.*;
+import java.util.*;
 
 import org.lwjgl.PointerBuffer;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.Pointer;
-import org.lwjgl.vulkan.VkBufferImageCopy;
-import org.lwjgl.vulkan.VkCommandBuffer;
-import org.lwjgl.vulkan.VkCommandPoolCreateInfo;
-import org.lwjgl.vulkan.VkDescriptorPoolCreateInfo;
-import org.lwjgl.vulkan.VkDescriptorPoolSize;
-import org.lwjgl.vulkan.VkExtensionProperties;
-import org.lwjgl.vulkan.VkExtent2D;
-import org.lwjgl.vulkan.VkExtent3D;
-import org.lwjgl.vulkan.VkFenceCreateInfo;
-import org.lwjgl.vulkan.VkFormatProperties;
-import org.lwjgl.vulkan.VkFramebufferCreateInfo;
-import org.lwjgl.vulkan.VkImageBlit;
-import org.lwjgl.vulkan.VkImageCreateInfo;
-import org.lwjgl.vulkan.VkImageMemoryBarrier;
-import org.lwjgl.vulkan.VkImageViewCreateInfo;
-import org.lwjgl.vulkan.VkMemoryAllocateInfo;
-import org.lwjgl.vulkan.VkMemoryRequirements;
-import org.lwjgl.vulkan.VkPhysicalDevice;
-import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties;
-import org.lwjgl.vulkan.VkPhysicalDeviceProperties;
-import org.lwjgl.vulkan.VkQueueFamilyProperties;
-import org.lwjgl.vulkan.VkSemaphoreCreateInfo;
-import org.lwjgl.vulkan.VkSurfaceCapabilitiesKHR;
-import org.lwjgl.vulkan.VkSurfaceFormatKHR;
+import org.lwjgl.system.*;
+import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.VulkanExample;
-import com.github.hydos.ginger.VulkanExample.QueueFamilyIndices;
-import com.github.hydos.ginger.VulkanExample.SwapChainSupportDetails;
-import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
+import com.github.hydos.ginger.VulkanExample.*;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
+import com.github.hydos.ginger.vulkan.managers.*;
 import com.github.hydos.ginger.vulkan.model.VKVertex;
-import com.github.hydos.ginger.vulkan.render.Frame;
-import com.github.hydos.ginger.vulkan.render.VKBufferMesh;
+import com.github.hydos.ginger.vulkan.render.*;
 import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
 
 public class VKUtils
@@ -74,7 +34,7 @@ public class VKUtils
 		vkDestroyImage(VKVariables.device, VKVariables.textureImage, null);
 		vkFreeMemory(VKVariables.device, VKVariables.textureImageMemory, null);
 
-		vkDestroyDescriptorSetLayout(VKVariables.device, VKVariables.descriptorSetLayout, null);
+		vkDestroyDescriptorSetLayout(VKVariables.device, VKUBOManager.descriptorSetLayout, null);
 
 		VKVariables.inFlightFrames.forEach(frame -> {
 
@@ -127,7 +87,7 @@ public class VKUtils
 				throw new RuntimeException("Texture image format does not support linear blitting");
 			}
 
-			VkCommandBuffer commandBuffer = CommandBufferManager.beginSingleTimeCommands();
+			VkCommandBuffer commandBuffer = VKCommandBufferManager.beginSingleTimeCommands();
 
 			VkImageMemoryBarrier.Buffer barrier = VkImageMemoryBarrier.callocStack(1, stack);
 			barrier.sType(VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER);
@@ -209,7 +169,7 @@ public class VKUtils
 				null,
 				barrier);
 
-			CommandBufferManager.endSingleTimeCommands(commandBuffer);
+			VKCommandBufferManager.endSingleTimeCommands(commandBuffer);
 		}
 	}
 
@@ -515,7 +475,7 @@ public class VKUtils
 				throw new IllegalArgumentException("Unsupported layout transition");
 			}
 
-			VkCommandBuffer commandBuffer = CommandBufferManager.beginSingleTimeCommands();
+			VkCommandBuffer commandBuffer = VKCommandBufferManager.beginSingleTimeCommands();
 
 			vkCmdPipelineBarrier(commandBuffer,
 				sourceStage, destinationStage,
@@ -524,7 +484,7 @@ public class VKUtils
 				null,
 				barrier);
 
-			CommandBufferManager.endSingleTimeCommands(commandBuffer);
+			VKCommandBufferManager.endSingleTimeCommands(commandBuffer);
 		}
 	}
 	
@@ -536,7 +496,7 @@ public class VKUtils
 
 		try(MemoryStack stack = stackPush()) {
 
-			VkCommandBuffer commandBuffer = CommandBufferManager.beginSingleTimeCommands();
+			VkCommandBuffer commandBuffer = VKCommandBufferManager.beginSingleTimeCommands();
 
 			VkBufferImageCopy.Buffer region = VkBufferImageCopy.callocStack(1, stack);
 			region.bufferOffset(0);
@@ -551,7 +511,7 @@ public class VKUtils
 
 			vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, region);
 
-			CommandBufferManager.endSingleTimeCommands(commandBuffer);
+			VKCommandBufferManager.endSingleTimeCommands(commandBuffer);
 		}
 	}
 
@@ -650,8 +610,8 @@ public class VKUtils
 
 		try(MemoryStack stack = stackPush()) {
 
-			VKVariables.uniformBuffers = new ArrayList<>(VKVariables.swapChainImages.size());
-			VKVariables.uniformBuffersMemory = new ArrayList<>(VKVariables.swapChainImages.size());
+			VKUBOManager.uniformBuffers = new ArrayList<>(VKVariables.swapChainImages.size());
+			VKUBOManager.uniformBuffersMemory = new ArrayList<>(VKVariables.swapChainImages.size());
 
 			LongBuffer pBuffer = stack.mallocLong(1);
 			LongBuffer pBufferMemory = stack.mallocLong(1);
@@ -663,8 +623,8 @@ public class VKUtils
 					pBuffer,
 					pBufferMemory);
 
-				VKVariables.uniformBuffers.add(pBuffer.get(0));
-				VKVariables.uniformBuffersMemory.add(pBufferMemory.get(0));
+				VKUBOManager.uniformBuffers.add(pBuffer.get(0));
+				VKUBOManager.uniformBuffersMemory.add(pBufferMemory.get(0));
 			}
 
 		}
@@ -696,7 +656,7 @@ public class VKUtils
 				throw new RuntimeException("Failed to create descriptor pool");
 			}
 
-			VKVariables.descriptorPool = pDescriptorPool.get(0);
+			VKUBOManager.descriptorPool = pDescriptorPool.get(0);
 		}
 	}
 
@@ -922,4 +882,65 @@ public class VKUtils
 
 		return glfwExtensions;
 	}
+	
+    /**
+     * Translates a Vulkan {@code VkResult} value to a String describing the result.
+     * 
+     * @param result
+     *            the {@code VkResult} value
+     * 
+     * @return the result description
+     */
+    public static String translateVulkanResult(int result) {
+        switch (result) {
+        // Success codes
+        case VK_SUCCESS:
+            return "Command successfully completed.";
+        case VK_NOT_READY:
+            return "A fence or query has not yet completed.";
+        case VK_TIMEOUT:
+            return "A wait operation has not completed in the specified time.";
+        case VK_EVENT_SET:
+            return "An event is signaled.";
+        case VK_EVENT_RESET:
+            return "An event is unsignaled.";
+        case VK_INCOMPLETE:
+            return "A return array was too small for the result.";
+        case KHRSwapchain.VK_SUBOPTIMAL_KHR:
+            return "A swapchain no longer matches the surface properties exactly, but can still be used to present to the surface successfully.";
+
+            // Error codes
+        case VK_ERROR_OUT_OF_HOST_MEMORY:
+            return "A host memory allocation has failed.";
+        case VK_ERROR_OUT_OF_DEVICE_MEMORY:
+            return "A device memory allocation has failed.";
+        case VK_ERROR_INITIALIZATION_FAILED:
+            return "Initialization of an object could not be completed for implementation-specific reasons.";
+        case VK_ERROR_DEVICE_LOST:
+            return "The logical or physical device has been lost.";
+        case VK_ERROR_MEMORY_MAP_FAILED:
+            return "Mapping of a memory object has failed.";
+        case VK_ERROR_LAYER_NOT_PRESENT:
+            return "A requested layer is not present or could not be loaded.";
+        case VK_ERROR_EXTENSION_NOT_PRESENT:
+            return "A requested extension is not supported.";
+        case VK_ERROR_FEATURE_NOT_PRESENT:
+            return "A requested feature is not supported.";
+        case VK_ERROR_INCOMPATIBLE_DRIVER:
+            return "The requested version of Vulkan is not supported by the driver or is otherwise incompatible for implementation-specific reasons.";
+        case VK_ERROR_TOO_MANY_OBJECTS:
+            return "Too many objects of the type have already been created.";
+        case VK_ERROR_FORMAT_NOT_SUPPORTED:
+            return "A requested format is not supported on this device.";
+        case VK_ERROR_SURFACE_LOST_KHR:
+            return "A surface is no longer available.";
+        case VK_ERROR_NATIVE_WINDOW_IN_USE_KHR:
+            return "The requested window is already connected to a VkSurfaceKHR, or to some other non-Vulkan API.";
+        case KHRSwapchain.VK_ERROR_OUT_OF_DATE_KHR:
+            return "A surface has changed in such a way that it is no longer compatible with the swapchain, and further presentation requests using the "
+                    + "swapchain will fail. Applications must query the new surface properties and recreate their swapchain if they wish to continue" + "presenting to the surface.";
+        default:
+            return String.format("%s [%d]", "Unknown", Integer.valueOf(result));
+        }
+    }
 }

@@ -9,7 +9,7 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.managers.CommandBufferManager;
+import com.github.hydos.ginger.vulkan.managers.VKCommandBufferManager;
 
 public class VKBufferUtils
 {
@@ -48,14 +48,14 @@ public class VKBufferUtils
 
 		try(MemoryStack stack = stackPush()) {
 
-			VkCommandBuffer commandBuffer = CommandBufferManager.beginSingleTimeCommands();
+			VkCommandBuffer commandBuffer = VKCommandBufferManager.beginSingleTimeCommands();
 
 			VkBufferCopy.Buffer copyRegion = VkBufferCopy.callocStack(1, stack);
 			copyRegion.size(size);
 
 			vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, copyRegion);
 
-			CommandBufferManager.endSingleTimeCommands(commandBuffer);
+			VKCommandBufferManager.endSingleTimeCommands(commandBuffer);
 		}
 	}
 	

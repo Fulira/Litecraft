@@ -24,8 +24,9 @@ import org.lwjgl.vulkan.VkSubmitInfo;
 
 import com.github.hydos.ginger.VulkanExample;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.managers.UBOManager;
+import com.github.hydos.ginger.vulkan.managers.VKUBOManager;
 import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
+import com.github.hydos.ginger.vulkan.utils.VKUtils;
 
 /**
  * Wraps the needed sync objects for an in flight frame
@@ -89,7 +90,7 @@ public class Frame {
 
 			final int imageIndex = pImageIndex.get(0);
 			VKVariables.currentImageIndex = imageIndex;
-			UBOManager.updateUniformBuffer(VKVariables.currentImageIndex, null);//TODO: move this to entitiy renderer and update before every entity is drawn
+			VKUBOManager.updateUniformBuffer(VKVariables.currentImageIndex, null);//TODO: move this to entitiy renderer and update before every entity is drawn
 
 			if(VKVariables.imagesInFlight.containsKey(imageIndex)) {
 				vkWaitForFences(VKVariables.device, VKVariables.imagesInFlight.get(imageIndex).fence(), true, VulkanExample.UINT64_MAX);
@@ -107,12 +108,12 @@ public class Frame {
 			submitInfo.pSignalSemaphores(thisFrame.pRenderFinishedSemaphore());
 
 			submitInfo.pCommandBuffers(stack.pointers(VKVariables.commandBuffers.get(imageIndex)));
-
+			
 			vkResetFences(VKVariables.device, thisFrame.pFence());
 
 			if((vkResult = vkQueueSubmit(VKVariables.graphicsQueue, submitInfo, thisFrame.fence())) != VK_SUCCESS) {
 				vkResetFences(VKVariables.device, thisFrame.pFence());
-				throw new RuntimeException("Failed to submit draw command buffer: " + vkResult);
+				throw new RuntimeException("Failed to submit draw command buffer: " + VKUtils.translateVulkanResult(vkResult));
 			}
 
 			VkPresentInfoKHR presentInfo = VkPresentInfoKHR.callocStack(stack);

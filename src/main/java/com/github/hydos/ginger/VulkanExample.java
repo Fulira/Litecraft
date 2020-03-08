@@ -19,12 +19,13 @@ import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.*;
 import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.io.VKWindow;
-import com.github.hydos.ginger.vulkan.managers.UBOManager;
+import com.github.hydos.ginger.vulkan.managers.VKUBOManager;
 import com.github.hydos.ginger.vulkan.managers.VKTextureManager;
 import com.github.hydos.ginger.vulkan.model.VKModelLoader;
 import com.github.hydos.ginger.vulkan.model.VKModelLoader.VKMesh;
 import com.github.hydos.ginger.vulkan.render.Frame;
 import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
+import com.github.hydos.ginger.vulkan.ubo.*;
 import com.github.hydos.ginger.vulkan.utils.*;
 
 public class VulkanExample {
@@ -91,7 +92,7 @@ public class VulkanExample {
 	}
 
 	private void initWindow() {
-		Window.create(1200, 800, "Vulkan Ginger2", 60, RenderAPI.Vulkan);
+		Window.create(1200, 800, "Vulkan Ginger2", 61, RenderAPI.Vulkan);
 		glfwSetFramebufferSizeCallback(Window.getWindow(), this::framebufferResizeCallback);
 	}
 
@@ -111,7 +112,12 @@ public class VulkanExample {
 		VKTextureManager.createTextureImageView();
 		VKTextureManager.createTextureSampler();
 		loadModel();
-		UBOManager.createUBODescriptorSetLayout();
+		
+//		//create the projection and view matrix ubo
+		UBO viewProjUbo = new UBO();
+		VKUBOManager.addUBO(viewProjUbo);
+		VKUBOManager.createUBODescriptorSetLayout();
+		
 		VKSwapchainManager.createSwapChainObjects();
 		VKUtils.createSyncObjects();
 	}

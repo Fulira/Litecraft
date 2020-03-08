@@ -37,7 +37,7 @@ import org.lwjgl.vulkan.VkSubmitInfo;
 import com.github.hydos.ginger.common.io.Window;
 import com.github.hydos.ginger.vulkan.VKVariables;
 
-public class CommandBufferManager
+public class VKCommandBufferManager
 {
 	
 	public static void createCommandBuffers() {
