@@ -29,7 +29,7 @@ public class OreModifier implements WorldModifier, WorldGenConstants {
 	@Override
 	public void modifyWorld(BlockAccess world, Random rand, int chunkStartX, int chunkStartY, int chunkStartZ) {
 		final int chunkEndY = chunkStartY + MAX_POS;
-		if (chunkStartY < this.maxY || chunkEndY > this.minY) {
+		if (chunkStartY > this.maxY || chunkEndY < this.minY) {
 			return;
 		}
 

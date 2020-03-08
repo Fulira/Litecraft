@@ -11,7 +11,7 @@ public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 		Random rand = new Random(seed);
 		this.noise = new OctaveSimplexNoise(rand, 3, 250.0, 65.0, 39.0);
 		this.stoneNoise = new OctaveSimplexNoise(rand, 1);
-		this.beachNoise = new OctaveSimplexNoise(rand, 2, 52.0, 3.0, 1.0);
+		this.beachNoise = new OctaveSimplexNoise(rand, 2, 52.0, 4.0, 2.0);
 		this.dimension = dimension;
 	}
 
@@ -23,7 +23,7 @@ public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 	@Override
 	public Chunk generateChunk(World world, int chunkX, int chunkY, int chunkZ) {
 		Chunk chunk = new Chunk(world, chunkX, chunkY, chunkZ, this.dimension);
-		final int heightOffset = SEA_LEVEL + 3;
+		final int heightOffset = SEA_LEVEL + 4;
 
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			double totalX = x + chunk.chunkStartX;
@@ -36,13 +36,13 @@ public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 					double rockNoise = this.stoneNoise.sample(totalX / 160.0, (chunk.chunkStartY + y) / 50.0,
 							totalZ / 160.0);
 					int totalY = chunk.chunkStartY + y;
-					int beachHeight = (int) this.beachNoise.sample(totalX, totalY) + SEA_LEVEL;
+					int beachHeight = (int) this.beachNoise.sample(totalX, totalY) + SEA_LEVEL + 1;
 					//
-					Block block = totalY < SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
+					Block block = totalY <= SEA_LEVEL ? Blocks.WATER : Blocks.AIR;
 					if (totalY < height - 4) {
 						block = pickStone(rockNoise);
 					} else if (totalY < height) {
-						if (block == Blocks.WATER) { // set sand when underwater
+						if (totalY < SEA_LEVEL) { // set sand when underwater
 							block = Blocks.SAND;
 						} else if (height < beachHeight) {
 							block = Blocks.SAND; // beaches

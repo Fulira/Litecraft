@@ -3,9 +3,9 @@ package com.github.fulira.litecraft.world.gen;
 public interface WorldGenConstants {
 	// modify these!
 	/**
-	 * The level below which water generates in the overworld.
+	 * The level at and below which water generates in the overworld.
 	 */
-	int SEA_LEVEL = 0;
+	int SEA_LEVEL = -1;
 	/**
 	 * POS_SHIFT for chunk block storage. Change this to change chunk size.
 	 */
