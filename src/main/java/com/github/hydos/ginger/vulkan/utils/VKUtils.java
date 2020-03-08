@@ -768,14 +768,10 @@ public class VKUtils
 		VkExtent2D minExtent = capabilities.minImageExtent();
 		VkExtent2D maxExtent = capabilities.maxImageExtent();
 
-		actualExtent.width(clamp(minExtent.width(), maxExtent.width(), actualExtent.width()));
-		actualExtent.height(clamp(minExtent.height(), maxExtent.height(), actualExtent.height()));
+		actualExtent.width(VKMath.clamp(minExtent.width(), maxExtent.width(), actualExtent.width()));
+		actualExtent.height(VKMath.clamp(minExtent.height(), maxExtent.height(), actualExtent.height()));
 
 		return actualExtent;
-	}
-
-	private static int clamp(int min, int max, int value) {
-		return Math.max(min, Math.min(max, value));
 	}
 
 	@SuppressWarnings("unlikely-arg-type") //dont think its fixable
