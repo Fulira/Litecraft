@@ -1,6 +1,6 @@
 package com.github.halotroop.litecraft.world;
 
-import com.github.halotroop.litecraft.types.block.Block;
+import com.github.fulira.litecraft.types.block.Block;
 
 public interface BlockAccess {
 	Block getBlock(int x, int y, int z);

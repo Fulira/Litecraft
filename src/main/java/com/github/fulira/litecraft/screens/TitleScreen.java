@@ -1,12 +1,12 @@
-package com.github.halotroop.litecraft.screens;
+package com.github.fulira.litecraft.screens;
 
 import java.util.ArrayList;
 
 import org.joml.*;
 
-import com.github.halotroop.litecraft.Litecraft;
-import com.github.halotroop.litecraft.save.LitecraftSave;
-import com.github.halotroop.litecraft.world.dimension.Dimensions;
+import com.github.fulira.litecraft.Litecraft;
+import com.github.fulira.litecraft.save.LitecraftSave;
+import com.github.fulira.litecraft.world.dimension.Dimensions;
 import com.github.hydos.ginger.common.api.GingerEngine;
 import com.github.hydos.ginger.common.elements.GLGuiTexture;
 import com.github.hydos.ginger.common.elements.buttons.TextureButton;

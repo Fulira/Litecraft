@@ -2,11 +2,11 @@ package com.github.halotroop.litecraft.world.gen.modifier;
 
 import java.util.Random;
 
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.util.CardinalDirection;
-import com.github.halotroop.litecraft.util.noise.OctaveSimplexNoise;
-import com.github.halotroop.litecraft.world.BlockAccess;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.util.CardinalDirection;
+import com.github.fulira.litecraft.util.noise.OctaveSimplexNoise;
+import com.github.fulira.litecraft.world.BlockAccess;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
 public class CavesModifier implements WorldModifier, WorldGenConstants {
 	private OctaveSimplexNoise caveNoise;

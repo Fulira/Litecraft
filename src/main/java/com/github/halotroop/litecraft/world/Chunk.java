@@ -5,10 +5,10 @@ import java.util.function.ToIntFunction;
 
 import org.joml.Vector3f;
 
-import com.github.halotroop.litecraft.logic.SODSerializable;
-import com.github.halotroop.litecraft.render.GLBlockRenderer;
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.logic.SODSerializable;
+import com.github.fulira.litecraft.render.GLBlockRenderer;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;

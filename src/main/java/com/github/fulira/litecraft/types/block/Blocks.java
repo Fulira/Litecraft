@@ -1,9 +1,9 @@
-package com.github.halotroop.litecraft.types.block;
+package com.github.fulira.litecraft.types.block;
 
 import java.util.ArrayList;
 
-import com.github.halotroop.litecraft.types.block.Block.Properties;
-import com.github.halotroop.litecraft.types.block.Ore.Rock;
+import com.github.fulira.litecraft.types.block.Block.Properties;
+import com.github.fulira.litecraft.types.block.Ore.Rock;
 
 public final class Blocks {
 	public static final ArrayList<Block> BLOCKS = new ArrayList<Block>();

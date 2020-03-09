@@ -3,9 +3,9 @@ package com.github.halotroop.litecraft.world.gen.modifier;
 import java.util.Random;
 import java.util.function.UnaryOperator;
 
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.world.BlockAccess;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.world.BlockAccess;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
 public class OreModifier implements WorldModifier, WorldGenConstants {
 	public OreModifier(int minY, int maxY, int boxSize, int veinSizeMin, int veinSizeMax, UnaryOperator<Block> ore, OreStarter veinStarter) {

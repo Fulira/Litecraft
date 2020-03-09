@@ -1,10 +1,10 @@
-package com.github.halotroop.litecraft.render;
+package com.github.fulira.litecraft.render;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.*;
 
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 import com.github.hydos.ginger.common.api.GingerRegister;
 import com.github.hydos.ginger.common.elements.objects.GLRenderObject;
 import com.github.hydos.ginger.common.io.Window;

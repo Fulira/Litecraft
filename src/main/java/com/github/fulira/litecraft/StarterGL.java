@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft;
+package com.github.fulira.litecraft;
 
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;

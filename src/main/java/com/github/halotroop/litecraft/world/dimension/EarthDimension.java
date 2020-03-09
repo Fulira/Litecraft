@@ -1,6 +1,6 @@
 package com.github.halotroop.litecraft.world.dimension;
 
-import com.github.halotroop.litecraft.world.gen.EarthChunkGenerator;
+import com.github.fulira.litecraft.world.gen.EarthChunkGenerator;
 
 class EarthDimension extends Dimension<EarthChunkGenerator> {
 	public EarthDimension(int id, String saveIdentifier) {

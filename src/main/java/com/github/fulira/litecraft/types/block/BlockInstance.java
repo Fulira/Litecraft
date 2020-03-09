@@ -1,8 +1,8 @@
-package com.github.halotroop.litecraft.types.block;
+package com.github.fulira.litecraft.types.block;
 
 import org.joml.Vector3f;
 
-import com.github.halotroop.litecraft.world.Chunk;
+import com.github.fulira.litecraft.world.Chunk;
 import com.github.hydos.ginger.common.elements.objects.GLRenderObject;
 
 public class BlockInstance extends GLRenderObject {

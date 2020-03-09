@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.screens;
+package com.github.fulira.litecraft.screens;
 
 import org.joml.Vector2f;
 

@@ -2,9 +2,9 @@ package com.github.halotroop.litecraft.types.entity;
 
 import org.joml.Vector3f;
 
-import com.github.halotroop.litecraft.Litecraft;
-import com.github.halotroop.litecraft.util.RelativeDirection;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.Litecraft;
+import com.github.fulira.litecraft.util.RelativeDirection;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 import com.github.hydos.ginger.common.Constants;
 import com.github.hydos.ginger.common.api.GingerRegister;
 import com.github.hydos.ginger.common.io.Window;

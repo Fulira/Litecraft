@@ -2,9 +2,9 @@ package com.github.halotroop.litecraft.world.gen;
 
 import java.util.Random;
 
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.util.noise.OctaveSimplexNoise;
-import com.github.halotroop.litecraft.world.*;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.util.noise.OctaveSimplexNoise;
+import com.github.fulira.litecraft.world.*;
 
 public class EarthChunkGenerator implements ChunkGenerator, WorldGenConstants {
 	public EarthChunkGenerator(long seed, int dimension) {

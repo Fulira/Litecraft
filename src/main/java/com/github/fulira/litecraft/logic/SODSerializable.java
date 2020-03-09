@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.logic;
+package com.github.fulira.litecraft.logic;
 
 import tk.valoeghese.sod.BinaryData;
 

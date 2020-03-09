@@ -1,13 +1,13 @@
-package com.github.halotroop.litecraft;
+package com.github.fulira.litecraft;
 
 import org.joml.*;
 
-import com.github.halotroop.litecraft.save.LitecraftSave;
-import com.github.halotroop.litecraft.screens.*;
-import com.github.halotroop.litecraft.types.block.Blocks;
-import com.github.halotroop.litecraft.types.entity.PlayerEntity;
-import com.github.halotroop.litecraft.util.RelativeDirection;
-import com.github.halotroop.litecraft.world.World;
+import com.github.fulira.litecraft.save.LitecraftSave;
+import com.github.fulira.litecraft.screens.*;
+import com.github.fulira.litecraft.types.block.Blocks;
+import com.github.fulira.litecraft.types.entity.PlayerEntity;
+import com.github.fulira.litecraft.util.RelativeDirection;
+import com.github.fulira.litecraft.world.World;
 import com.github.hydos.ginger.common.Constants;
 import com.github.hydos.ginger.common.api.*;
 import com.github.hydos.ginger.common.api.game.*;

@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.types.block;
+package com.github.fulira.litecraft.types.block;
 
 import java.util.*;
 

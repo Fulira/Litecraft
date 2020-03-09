@@ -5,9 +5,9 @@ import java.util.function.Predicate;
 
 import org.joml.Vector3i;
 
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.world.BlockAccess;
-import com.github.halotroop.litecraft.world.gen.WorldGenConstants;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.world.BlockAccess;
+import com.github.fulira.litecraft.world.gen.WorldGenConstants;
 
 public abstract class GroundFoliageModifier implements WorldModifier, WorldGenConstants {
 	public GroundFoliageModifier(Predicate<Block> canGrowOn, FoliageStarter starter) {

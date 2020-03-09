@@ -8,14 +8,14 @@ import java.util.function.LongConsumer;
 import org.joml.Vector3f;
 
 import com.gildedgames.orbis.lib.util.random.XRSRRandom;
-import com.github.halotroop.litecraft.Litecraft;
-import com.github.halotroop.litecraft.render.GLBlockRenderer;
-import com.github.halotroop.litecraft.save.LitecraftSave;
-import com.github.halotroop.litecraft.types.block.*;
-import com.github.halotroop.litecraft.types.entity.PlayerEntity;
-import com.github.halotroop.litecraft.world.dimension.Dimension;
-import com.github.halotroop.litecraft.world.gen.*;
-import com.github.halotroop.litecraft.world.gen.modifier.WorldModifier;
+import com.github.fulira.litecraft.Litecraft;
+import com.github.fulira.litecraft.render.GLBlockRenderer;
+import com.github.fulira.litecraft.save.LitecraftSave;
+import com.github.fulira.litecraft.types.block.*;
+import com.github.fulira.litecraft.types.entity.PlayerEntity;
+import com.github.fulira.litecraft.world.dimension.Dimension;
+import com.github.fulira.litecraft.world.gen.*;
+import com.github.fulira.litecraft.world.gen.modifier.WorldModifier;
 import com.github.hydos.ginger.opengl.render.models.GLTexturedModel;
 
 import it.unimi.dsi.fastutil.longs.*;

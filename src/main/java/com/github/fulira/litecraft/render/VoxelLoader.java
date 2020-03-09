@@ -1,10 +1,10 @@
-package com.github.halotroop.litecraft.render;
+package com.github.fulira.litecraft.render;
 
 import java.nio.ByteBuffer;
 
 import org.lwjgl.opengl.*;
 
-import com.github.halotroop.litecraft.types.block.*;
+import com.github.fulira.litecraft.types.block.*;
 import com.github.hydos.ginger.opengl.utils.GLLoader;
 
 public class VoxelLoader extends GLLoader {

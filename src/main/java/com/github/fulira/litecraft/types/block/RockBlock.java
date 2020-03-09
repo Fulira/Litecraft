@@ -1,6 +1,6 @@
-package com.github.halotroop.litecraft.types.block;
+package com.github.fulira.litecraft.types.block;
 
-import com.github.halotroop.litecraft.types.block.Ore.Rock;
+import com.github.fulira.litecraft.types.block.Ore.Rock;
 
 public class RockBlock extends Block {
 	protected RockBlock(String texture, Rock rock, Properties properties) {

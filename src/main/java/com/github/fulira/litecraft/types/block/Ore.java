@@ -1,9 +1,9 @@
-package com.github.halotroop.litecraft.types.block;
+package com.github.fulira.litecraft.types.block;
 
 import java.util.*;
 import java.util.function.*;
 
-import com.github.halotroop.litecraft.types.block.Block.Properties;
+import com.github.fulira.litecraft.types.block.Block.Properties;
 
 public final class Ore {
 	public Ore(String name) {

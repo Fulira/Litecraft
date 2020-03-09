@@ -2,8 +2,8 @@ package com.github.halotroop.litecraft.world.gen.modifier;
 
 import java.util.Random;
 
-import com.github.halotroop.litecraft.types.block.Blocks;
-import com.github.halotroop.litecraft.world.BlockAccess;
+import com.github.fulira.litecraft.types.block.Blocks;
+import com.github.fulira.litecraft.world.BlockAccess;
 
 public final class GenericTreeModifier extends GroundFoliageModifier {
 	public GenericTreeModifier() {
@@ -21,7 +21,7 @@ public final class GenericTreeModifier extends GroundFoliageModifier {
 		int level = 0;
 
 		for (int i = height - 1; i < height + 3; ++i) {
-			int size = level < 2 ? 5 : 7 - 2 * level;
+			int size = level < 2 ? 2 : 5 - 2 * level;
 
 			for (int xo = -size; xo <= size; ++xo) {
 				for (int zo = -size; zo <= size; ++zo) {
