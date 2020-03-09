@@ -13,5 +13,18 @@ public class UBO
 	public int bindIndex;
 	public int shaderType = VK_SHADER_STAGE_VERTEX_BIT;
 	
+	public abstract class VKUBOData{
+		public abstract void storeData();
+	}
+	
+	public class VKMat4UboData extends VKUBOData{
+
+		@Override
+		public void storeData(){
+			
+		}
+		
+	}
 	
 }
+
