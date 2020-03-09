@@ -12,7 +12,7 @@ public final class Blocks {
 	// "cubes/soil/grass/grass_top2.png" top
 	// "cubes/soil/grass/grass_side.png" side
 	// "cubes/soil/dirt.png" bottom
-	public static final Block GRASS = new Block("cubes/soil/grass/grass_side.png", new Properties("grass").caveCarveThreshold(0.04f));
+	public static final Block GRASS = new Block("cubes/soil/grass/grass_top2.png", new Properties("grass").caveCarveThreshold(0.04f));
 	public static final Block DIRT = new Block("cubes/soil/dirt.png", new Properties("dirt").caveCarveThreshold(0.05f));
 	public static final Block ANDESITE = new RockBlock("cubes/stone/basic/andesite.png", Rock.ANDESITE, new Properties("andesite").caveCarveThreshold(0.08f));
 	public static final Block DIORITE = new RockBlock("cubes/stone/basic/diorite.png", Rock.DIORITE, new Properties("diorite").caveCarveThreshold(0.05f));

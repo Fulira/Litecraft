@@ -21,11 +21,20 @@ public final class GenericTreeModifier extends GroundFoliageModifier {
 		int level = 0;
 
 		for (int i = height - 1; i < height + 3; ++i) {
-			int size = level < 2 ? 2 : 5 - 2 * level;
+			if (level == 3) {
+				int y = startY + i;
+				world.setBlock(startX, y, startZ, Blocks.LEAVES);
+				world.setBlock(startX + 1, y, startZ, Blocks.LEAVES);
+				world.setBlock(startX - 1, y, startZ, Blocks.LEAVES);
+				world.setBlock(startX, y, startZ + 1, Blocks.LEAVES);
+				world.setBlock(startX, y, startZ - 1, Blocks.LEAVES);
+			} else {
+				int size = level < 2 ? 2 : 1;
 
-			for (int xo = -size; xo <= size; ++xo) {
-				for (int zo = -size; zo <= size; ++zo) {
-					world.setBlock(startX + xo, startY + i, startZ + zo, Blocks.LOG);
+				for (int xo = -size; xo <= size; ++xo) {
+					for (int zo = -size; zo <= size; ++zo) {
+						world.setBlock(startX + xo, startY + i, startZ + zo, Blocks.LEAVES);
+					}
 				}
 			}
 			++level;
