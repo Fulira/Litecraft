@@ -42,7 +42,7 @@ public class EntityRenderer extends Renderer
 				try {
 					processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, mesh.texCoords.get(i));
 				}catch(Exception e) {
-					processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, new Vector2f());
+					processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, new Vector2f(-1f, -1f)); //just in case
 				}
 			}
 			else
