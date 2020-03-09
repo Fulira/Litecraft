@@ -157,7 +157,7 @@ public class VKUBOManager {
 		VKMat4UboData mat4Proj = new VKMat4UboData();
 		mat4Proj.mat4 = ubo.proj;
 		
-//		mat4Model.storeDataInMemory(0, buffer);
+		mat4Model.storeDataInMemory(0, buffer);
 		mat4View.storeDataInMemory(1, buffer);
 		mat4Proj.storeDataInMemory(2, buffer);
 		
