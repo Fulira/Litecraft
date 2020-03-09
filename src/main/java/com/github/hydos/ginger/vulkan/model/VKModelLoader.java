@@ -24,7 +24,10 @@ public class VKModelLoader {
             VKMesh model = new VKMesh();
 
             processNode(scene.mRootNode(), scene, model);
-
+            
+            if(model.texCoords == null) {
+            	model.hasTexCoords = false;
+            }
             return model;
         }
     }
@@ -59,12 +62,13 @@ public class VKModelLoader {
 
     }
 
-    private static void processMesh(AIScene scene, AIMesh mesh, VKMesh model) {
+    private static boolean processMesh(AIScene scene, AIMesh mesh, VKMesh model) {
 
         processPositions(mesh, model.positions);
-        processTexCoords(mesh, model.texCoords);
+        boolean out = processTexCoords(mesh, model.texCoords);
 
         processIndices(mesh, model.indices);
+        return out;
     }
 
     private static void processPositions(AIMesh mesh, List<Vector3fc> positions) {
@@ -78,15 +82,20 @@ public class VKModelLoader {
 
     }
 
-    private static void processTexCoords(AIMesh mesh, List<Vector2fc> texCoords) {
-
-        AIVector3D.Buffer aiTexCoords = requireNonNull(mesh.mTextureCoords(0));
-
-        for(int i = 0;i < aiTexCoords.capacity();i++) {
-            final AIVector3D coords = aiTexCoords.get(i);
-            texCoords.add(new Vector2f(coords.x(), coords.y()));
-        }
-
+    private static boolean processTexCoords(AIMesh mesh, List<Vector2fc> texCoords) {
+    	try {
+            AIVector3D.Buffer aiTexCoords = mesh.mTextureCoords(0);
+            
+            for(int i = 0;i < aiTexCoords.capacity();i++) {
+                final AIVector3D coords = aiTexCoords.get(i);
+                texCoords.add(new Vector2f(coords.x(), coords.y()));
+            }
+            return true;
+    	}catch(Exception e) {
+    		texCoords = null;
+    		System.out.println("a model is missing texture coords");
+    		return false;
+    	}
     }
 
     private static void processIndices(AIMesh mesh, List<Integer> indices) {
@@ -105,7 +114,8 @@ public class VKModelLoader {
 
     public static class VKMesh {
 
-        public final List<Vector3fc> positions;
+        public boolean hasTexCoords = true;
+		public final List<Vector3fc> positions;
         public final List<Vector2fc> texCoords;
         public final List<Integer> indices;
 
