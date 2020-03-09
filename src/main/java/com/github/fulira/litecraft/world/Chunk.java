@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.world;
+package com.github.fulira.litecraft.world;
 
 import java.util.*;
 import java.util.function.ToIntFunction;

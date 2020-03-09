@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.world.gen.modifier;
+package com.github.fulira.litecraft.world.gen.modifier;
 
 import java.util.*;
 import java.util.function.Predicate;

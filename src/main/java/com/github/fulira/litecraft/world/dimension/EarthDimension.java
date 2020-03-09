@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.world.dimension;
+package com.github.fulira.litecraft.world.dimension;
 
 import com.github.fulira.litecraft.world.gen.EarthChunkGenerator;
 

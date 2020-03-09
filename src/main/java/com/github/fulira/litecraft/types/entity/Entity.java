@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.types.entity;
+package com.github.fulira.litecraft.types.entity;
 
 import org.joml.Vector3f;
 

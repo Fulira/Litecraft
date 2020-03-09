@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.util;
+package com.github.fulira.litecraft.util;
 
 public enum CardinalDirection {
 	NORTH(0, 1),

@@ -1,4 +1,4 @@
-package com.github.halotroop.litecraft.world.gen;
+package com.github.fulira.litecraft.world.gen;
 
 public interface WorldGenConstants {
 	// modify these!
