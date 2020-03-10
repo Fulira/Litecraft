@@ -16,7 +16,7 @@ public abstract class GroundFoliageModifier implements WorldModifier, WorldGenCo
 	}
 
 	private final Predicate<Block> canGrowOn;
-	private final FoliageStarter starter;
+	protected FoliageStarter starter;
 
 	@Override
 	public void modifyWorld(BlockAccess world, Random rand, int chunkStartX, int chunkStartY, int chunkStartZ) {
@@ -70,8 +70,6 @@ public abstract class GroundFoliageModifier implements WorldModifier, WorldGenCo
 
 	@Override
 	public void initialize(long seed) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@FunctionalInterface
