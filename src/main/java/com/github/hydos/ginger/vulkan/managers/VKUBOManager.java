@@ -13,7 +13,6 @@ import org.lwjgl.vulkan.*;
 
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.vulkan.VKVariables;
-import com.github.hydos.ginger.vulkan.elements.VKRenderObject;
 import com.github.hydos.ginger.vulkan.ubo.UBO;
 import com.github.hydos.ginger.vulkan.ubo.UBO.VKMat4UboData;
 
@@ -160,16 +159,9 @@ public class VKUBOManager {
 		mat4Model.storeDataInMemory(0, buffer);
 		mat4View.storeDataInMemory(1, buffer);
 		mat4Proj.storeDataInMemory(2, buffer);
-		
-//		final int mat4Size = 16 * Float.BYTES;
-//
-//		ubo.model.get(0, buffer);
-//		ubo.view.get(AlignmentUtils.alignas(mat4Size, AlignmentUtils.alignof(ubo.view)), buffer);
-//		ubo.proj.get(AlignmentUtils.alignas(mat4Size * 2, AlignmentUtils.alignof(ubo.view)), buffer);
 	}
 	
-	public static void updateProjAndViewUniformBuffer(int currentImage, VKRenderObject renderObject) {
-
+	public static void updateProjAndViewUniformBuffer(int currentImage) {
 		try(MemoryStack stack = stackPush()) {
 
 			UniformBufferObject ubo = new UniformBufferObject();

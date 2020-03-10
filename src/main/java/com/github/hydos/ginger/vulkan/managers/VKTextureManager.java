@@ -32,7 +32,7 @@ public class VKTextureManager
 
 			long imageSize = pWidth.get(0) * pHeight.get(0) * 4; // pChannels.get(0);
 
-			VKVariables.mipLevels = (int) Math.floor(VKUtils.log2(Math.max(pWidth.get(0), pHeight.get(0)))) + 1;
+			VKVariables.mipLevels = (int) Math.floor(VKMath.log2(Math.max(pWidth.get(0), pHeight.get(0)))) + 1;
 
 			if(pixels == null) {
 				throw new RuntimeException("Failed to load texture image " + filename);
