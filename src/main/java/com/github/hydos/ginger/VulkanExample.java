@@ -26,6 +26,7 @@ import com.github.hydos.ginger.vulkan.model.VKModelLoader.VKMesh;
 import com.github.hydos.ginger.vulkan.render.Frame;
 import com.github.hydos.ginger.vulkan.swapchain.VKSwapchainManager;
 import com.github.hydos.ginger.vulkan.ubo.*;
+import com.github.hydos.ginger.vulkan.ubo.UBO.VKMat4UboData;
 import com.github.hydos.ginger.vulkan.utils.*;
 
 public class VulkanExample {
@@ -63,14 +64,17 @@ public class VulkanExample {
 
 		public static final int SIZEOF = 3 * 16 * Float.BYTES;
 
-		public Matrix4f model;
-		public Matrix4f view;
-		public Matrix4f proj;
+		public VKMat4UboData model;
+		public VKMat4UboData view;
+		public VKMat4UboData proj;
 
 		public UniformBufferObject() {
-			model = new Matrix4f();
-			view = new Matrix4f();
-			proj = new Matrix4f();
+			model = new VKMat4UboData();
+			view = new VKMat4UboData();
+			proj = new VKMat4UboData();
+			model.mat4 = new Matrix4f();
+			view.mat4 = new Matrix4f();
+			proj.mat4 = new Matrix4f();
 		}
 	}
 

@@ -14,7 +14,7 @@ import org.lwjgl.vulkan.*;
 import com.github.hydos.ginger.VulkanExample.UniformBufferObject;
 import com.github.hydos.ginger.vulkan.VKVariables;
 import com.github.hydos.ginger.vulkan.ubo.UBO;
-import com.github.hydos.ginger.vulkan.ubo.UBO.VKMat4UboData;
+import com.github.hydos.ginger.vulkan.ubo.UBO.*;
 
 public class VKUBOManager {
 	
@@ -24,6 +24,8 @@ public class VKUBOManager {
     public static long descriptorSetLayout;
     public static List<Long> descriptorSets;
 	
+    public static int staticUboOffset = 0;
+    
     public static List<Long> uniformBuffers; //FIXME: may be the answer to all problems
     public static List<Long> uniformBuffersMemory;
     
@@ -145,37 +147,33 @@ public class VKUBOManager {
 		}
 	}
 	
-	private static void putUBOInMemory(ByteBuffer buffer, UniformBufferObject ubo) {
-		
-		VKMat4UboData mat4Model = new VKMat4UboData();
-		mat4Model.mat4 = ubo.model;
-		
-		VKMat4UboData mat4View = new VKMat4UboData();
-		mat4View.mat4 = ubo.view;
-		
-		VKMat4UboData mat4Proj = new VKMat4UboData();
-		mat4Proj.mat4 = ubo.proj;
-		
-		mat4Model.storeDataInMemory(0, buffer);
-		mat4View.storeDataInMemory(1, buffer);
-		mat4Proj.storeDataInMemory(2, buffer);
+	private static void putUBODataInMemory(ByteBuffer buffer, VKUBOData ubodata) {
+		ubodata.storeDataInMemory(staticUboOffset, buffer);
+		staticUboOffset++;
+	}
+	
+	public static void resetUBOOffset() {
+		staticUboOffset = 0;
 	}
 	
 	public static void updateProjAndViewUniformBuffer(int currentImage) {
 		try(MemoryStack stack = stackPush()) {
 
 			UniformBufferObject ubo = new UniformBufferObject();
-			ubo.model.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
-			ubo.view.lookAt(2.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-			ubo.proj.perspective((float) Math.toRadians(45),
+			ubo.model.mat4.rotate((float) (glfwGetTime() * Math.toRadians(90)), 0.0f, 0.0f, 1.0f);
+			ubo.view.mat4.lookAt(2.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+			ubo.proj.mat4.perspective((float) Math.toRadians(45),
 				(float)VKVariables.swapChainExtent.width() / (float)VKVariables.swapChainExtent.height(), 0.1f, 10.0f);
-			ubo.proj.m11(ubo.proj.m11() * -1);
+			ubo.proj.mat4.m11(ubo.proj.mat4.m11() * -1);
 
 			PointerBuffer data = stack.mallocPointer(1);
 			vkMapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
 			{
-				putUBOInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo);
+				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.model);
+				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.view);
+				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.proj);
 			}
+			resetUBOOffset();
 			vkUnmapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage));
 		}
 	}
