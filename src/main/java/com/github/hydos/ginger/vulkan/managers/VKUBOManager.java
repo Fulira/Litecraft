@@ -156,7 +156,7 @@ public class VKUBOManager {
 		staticUboOffset = 0;
 	}
 	
-	public static void updateProjAndViewUniformBuffer(int currentImage) {
+	public static void updateProjAndViewUniformBuffer() {
 		try(MemoryStack stack = stackPush()) {
 
 			UniformBufferObject ubo = new UniformBufferObject();
@@ -167,15 +167,19 @@ public class VKUBOManager {
 			ubo.proj.mat4.m11(ubo.proj.mat4.m11() * -1);
 
 			PointerBuffer data = stack.mallocPointer(1);
-			vkMapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage), 0, UniformBufferObject.SIZEOF, 0, data);
+			vkMapMemory(VKVariables.device, currentUBOMemAddress(VKVariables.currentImageIndex), 0, 3 * VKMat4UboData.mat4Size * 3, 0, data);
 			{
 				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.model);
 				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.view);
 				putUBODataInMemory(data.getByteBuffer(0, UniformBufferObject.SIZEOF), ubo.proj);
 			}
 			resetUBOOffset();
-			vkUnmapMemory(VKVariables.device, uniformBuffersMemory.get(currentImage));
+			vkUnmapMemory(VKVariables.device, uniformBuffersMemory.get(VKVariables.currentImageIndex));
 		}
+	}
+
+	private static long currentUBOMemAddress(int currentImageIndex){
+		return uniformBuffersMemory.get(currentImageIndex); 
 	}
 
 }

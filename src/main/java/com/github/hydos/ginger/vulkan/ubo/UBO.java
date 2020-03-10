@@ -36,7 +36,7 @@ public class UBO
 		
 		public Matrix4f mat4;
 		
-		final int mat4Size = 16 * Float.BYTES;
+		public static final int mat4Size = 16 * Float.BYTES;
 		
 		@Override
 		public void storeDataInMemory(int offset, ByteBuffer buffer){
