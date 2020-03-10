@@ -5,7 +5,7 @@ import static org.lwjgl.vulkan.VK10.*;
 import java.nio.LongBuffer;
 import java.util.*;
 
-import org.joml.Vector3f;
+import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.VkCommandBuffer;
 
@@ -38,10 +38,16 @@ public class EntityRenderer extends Renderer
 		Vector3f color = new Vector3f(1.0f, 1.0f, 1.0f);
 
 		for(int i = 0;i < vertexCount;i++) {
-			processedMesh.vertices[i] = new VKVertex(
-				mesh.positions.get(i),
-				color,
-				mesh.texCoords.get(i));
+			if(entity.getRawModel().hasTexCoords) {
+				try {
+					processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, mesh.texCoords.get(i));
+				}catch(Exception e) {
+					processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, new Vector2f(-1f, -1f)); //just in case
+				}
+			}
+			else
+				processedMesh.vertices[i] = new VKVertex(mesh.positions.get(i), color, new Vector2f());
+
 		}
 
 		processedMesh.indices = new int[mesh.indices.size()];

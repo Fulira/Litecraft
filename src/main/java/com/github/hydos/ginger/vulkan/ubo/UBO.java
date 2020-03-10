@@ -1,8 +1,13 @@
 package com.github.hydos.ginger.vulkan.ubo;
 
-import static org.lwjgl.vulkan.VK12.*;
+import static org.lwjgl.vulkan.VK10.VK_SHADER_STAGE_VERTEX_BIT;
 
+import java.nio.ByteBuffer;
+
+import org.joml.Matrix4f;
 import org.lwjgl.vulkan.VkWriteDescriptorSet;
+
+import com.github.hydos.ginger.vulkan.utils.AlignmentUtils;
 
 public class UBO
 {
@@ -13,5 +18,28 @@ public class UBO
 	public int bindIndex;
 	public int shaderType = VK_SHADER_STAGE_VERTEX_BIT;
 	
+	public static abstract class VKUBOData{
+		public abstract void storeDataInMemory(int offset, ByteBuffer buffer);
+	}
+	
+	public static class VKMat4UboData extends VKUBOData{
+		
+		public Matrix4f mat4;
+		
+		final int mat4Size = 16 * Float.BYTES;
+		
+		@Override
+		public void storeDataInMemory(int offset, ByteBuffer buffer){
+			if(offset == 0) {
+				mat4.get(0, buffer);
+			}else {
+				mat4.get(AlignmentUtils.alignas(mat4Size*offset, AlignmentUtils.alignof(mat4)), buffer);//alignment may be the problem if this wont work
+			}
+			
+			
+		}
+		
+	}
 	
 }
+

@@ -85,10 +85,14 @@ public class VulkanExample {
 	private void loadTestModel() {
 
 		File modelFile = new File(ClassLoader.getSystemClassLoader().getResource("models/chalet.obj").getFile());
+		File modelFile2 = new File(ClassLoader.getSystemClassLoader().getResource("models/bunnyChalet.obj").getFile());
 
 		VKMesh model = VKModelLoader.loadModel(modelFile, aiProcess_FlipUVs | aiProcess_DropNormals);
+		VKMesh model2 = VKModelLoader.loadModel(modelFile2, aiProcess_FlipUVs | aiProcess_DropNormals);
 		VKRenderObject object = new VKRenderObject(model, new Vector3f(), 1, 1, 1, new Vector3f());
+		VKRenderObject object2 = new VKRenderObject(model2, new Vector3f(), 1, 2, 1, new Vector3f());
 		GingerVK.getInstance().entityRenderer.processEntity(object);
+		GingerVK.getInstance().entityRenderer.processEntity(object2);
 	}
 
 	private void initWindow() {
