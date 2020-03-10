@@ -3,11 +3,24 @@ package com.github.fulira.litecraft.world.gen.modifier;
 import java.util.Random;
 
 import com.github.fulira.litecraft.types.block.Blocks;
+import com.github.fulira.litecraft.util.noise.OctaveSimplexNoise;
 import com.github.fulira.litecraft.world.BlockAccess;
 
 public final class GenericTreeModifier extends GroundFoliageModifier {
 	public GenericTreeModifier() {
-		super(b -> b == Blocks.GRASS, (x, y, z, rand) -> 1);
+		super(b -> b == Blocks.GRASS, null);
+		this.starter = (x, y, z, rand) -> sampleTreeCount(x, z);
+	}
+
+	private OctaveSimplexNoise noise;
+
+	private int sampleTreeCount(float x, float z) {
+		return (int) Math.floor(this.noise.sample((double) x, (double) z));
+	}
+
+	@Override
+	public void initialize(long seed) {
+		this.noise = new OctaveSimplexNoise(new Random(seed), 3, 200.0f, 4.0f, 1.0f);
 	}
 
 	@Override
