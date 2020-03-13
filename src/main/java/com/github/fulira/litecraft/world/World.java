@@ -129,10 +129,15 @@ public class World implements BlockAccess, WorldGenConstants {
 		// If the chunk is not in memory, it does not need to be unloaded
 		if (chunk == null)
 			return false;
+
 		// Otherwise save the chunk
 		AtomicBoolean result = new AtomicBoolean(false);
 		CompletableFuture.runAsync(() -> {
-			result.set(this.save.saveChunk(chunk));
+			if (chunk.hasBeenModifiedSinceLoad()) { // if the chunk has not been modified it does not need to be saved
+				result.set(this.save.saveChunk(chunk));
+			} else {
+				result.set(true);
+			}
 			this.chunks.remove(posHash);
 		}, threadPool);
 		return result.get();
@@ -198,10 +203,12 @@ public class World implements BlockAccess, WorldGenConstants {
 		List<CompletableFuture<Void>> futures = new ArrayList<>();
 		if (this.chunks != null) {
 			this.chunks.forEach((pos, chunk) -> { // for every chunk in memory
-				futures.add(CompletableFuture.runAsync(() -> {
-					chunkPositions.add((long) pos); // add pos to chunk positions list for removal later
-					this.save.saveChunk(chunk); // save chunk
-				}, threadPool));
+				if (chunk.hasBeenModifiedSinceLoad()) {
+					futures.add(CompletableFuture.runAsync(() -> {
+						chunkPositions.add((long) pos); // add pos to chunk positions list for removal later
+						this.save.saveChunk(chunk); // save chunk
+					}, threadPool));
+				}
 			});
 		}
 		futures.forEach(CompletableFuture::join);
@@ -238,7 +245,7 @@ public class World implements BlockAccess, WorldGenConstants {
 					chunk.setFullyGenerated(true);
 				}
 				boolean alreadyRendering = chunk.doRender(); // if it's already rendering then it's most likely in the
-																// map
+				// map
 				chunk.setRender(true);
 				if (!alreadyRendering)
 					chunks.put(this.posHash(chunk.chunkX, chunk.chunkY, chunk.chunkZ), chunk);

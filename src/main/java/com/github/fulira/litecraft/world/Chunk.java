@@ -33,7 +33,11 @@ public class Chunk implements BlockAccess, WorldGenConstants, SODSerializable {
 	public final int chunkStartX, chunkStartY, chunkStartZ;
 	private boolean fullyGenerated = false;
 	public final int dimension;
+	/** Used to tell the chunk whether to rerender*/
 	private boolean dirty = true;
+	/** Used to tell the chunk whether it needs to saved. This can be triggered by chunk generation, world modifier generation, and/or manual block placement. */
+	private boolean modifiedSinceLoad = false;
+
 	/**
 	 * A holder for the rendered blocks in this chunk. This array is *NOT* safe to
 	 * use for getting BIs at a position! It can vary in size from 0 to 512 elements
@@ -53,6 +57,10 @@ public class Chunk implements BlockAccess, WorldGenConstants, SODSerializable {
 
 	public boolean doRender() {
 		return this.shouldRender;
+	}
+
+	public boolean hasBeenModifiedSinceLoad() {
+		return this.modifiedSinceLoad;
 	}
 
 	public void setFullyGenerated(boolean fullyGenerated) {
@@ -144,7 +152,8 @@ public class Chunk implements BlockAccess, WorldGenConstants, SODSerializable {
 		if (this.shouldRender)
 			this.blockInstances[index(x, y, z)] = new BlockInstance(block,
 					new Vector3f(this.chunkStartX + x, this.chunkStartY + y, this.chunkStartZ + z));
-		dirty = true;
+		this.dirty = true;
+		this.modifiedSinceLoad = true;
 	}
 
 	/**
@@ -165,7 +174,7 @@ public class Chunk implements BlockAccess, WorldGenConstants, SODSerializable {
 			// the if statement fall to here
 			blockInstances = new BlockInstance[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
 		this.shouldRender = render;
-		dirty = true;
+		this.dirty = true;
 	}
 
 	public boolean isFullyGenerated() {
@@ -245,6 +254,6 @@ public class Chunk implements BlockAccess, WorldGenConstants, SODSerializable {
 		DataSection properties = new DataSection();
 		properties.writeBoolean(this.fullyGenerated);
 		data.put("properties", properties);
-		dirty = true;
+		this.dirty = true;
 	}
 }
